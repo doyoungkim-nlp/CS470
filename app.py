@@ -8,15 +8,19 @@ app = Flask(__name__)
 @app.route('/')
 def start():
 	return render_template('start.html')
+
 @app.route('/canvas')
 def canvas():
 	return render_template('canvas.html')
+
 @app.route('/result')
-def canvas():
+def result():
 	return render_template('result.html')
+
 @app.route('/statistics')
-def canvas():
+def statistics():
 	return render_template('statistics.html')
+
 if __name__ == '__main__':
     basedir = os.path.abspath(os.path.dirname(__file__))
     dbfile = os.path.join(basedir, 'db.sqlite')
