@@ -11,7 +11,7 @@ def start():
 
 @app.route('/canvas')
 def canvas():
-	return render_template('canvas.html')
+	return render_template('index.html')
 
 @app.route('/result')
 def result():
