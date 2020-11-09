@@ -1,7 +1,10 @@
 import os
-from flask import Flask
+from flask import Flask, render_template, request
 from flask import render_template
 from models import db
+
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import  FileStorage
 
 app = Flask(__name__)
 
@@ -20,6 +23,16 @@ def result():
 @app.route('/statistics')
 def statistics():
 	return render_template('statistics.html')
+
+@app.route('/fileUpload', methods = ['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(secure_filename(f.filename))
+        #--------------------------------------------------------
+        #save한 이미지로 classification 진행
+        #--------------------------------------------------------
+        return 'success, tag: Apple'
 
 if __name__ == '__main__':
     basedir = os.path.abspath(os.path.dirname(__file__))
