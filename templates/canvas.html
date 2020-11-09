@@ -25,7 +25,12 @@
                         Predict!
                     </a>
                 </div>            
-            </div>  
+            </div>
+            <form action = "http://localhost:5000/fileUpload" method = "POST"
+                enctype = "multipart/form-data">
+                <input type = "file" name = "file" />
+                <input type = "submit"/>
+            </form>
         </div>
 
 
