@@ -76,6 +76,10 @@ https://stackoverflow.com/questions/2368784/draw-on-html5-canvas-using-a-mouse
 
     function save() {
        var dataURL = canvas.toDataURL();
+       /* console.log("------------------------\n")
+       console.log(dataURL);
+       console.log("------------------------\n") */
+
        // get base64 string from dataUrl
        dataURL = dataURL.split(",")[1];
        //  replace base64 characters '+/=' with '._-'
@@ -90,6 +94,17 @@ https://stackoverflow.com/questions/2368784/draw-on-html5-canvas-using-a-mouse
        }
 
        window.location.href = '/go/' + dataURL;
+
+//test중..(imagebase64로 serverside로 보내기)
+/*        $.ajax({
+        type: "POST",
+        url: "/hook",
+        data:{
+          imageBase64: dataURL
+        }
+      }).done(function() {
+        console.log('sent');
+      }); */
     }
 
    function findxy(res, e) {
@@ -175,5 +190,11 @@ https://stackoverflow.com/questions/2368784/draw-on-html5-canvas-using-a-mouse
 
     {% block body %}
     {% endblock %}
+
+    <form action = "http://localhost:5000/fileUpload" method = "POST"
+        enctype = "multipart/form-data">
+        <input type = "file" name = "file" />
+        <input type = "submit"/>
+    </form>
   </body>
 </html>
