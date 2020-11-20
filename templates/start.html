@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sketchmind-start</title>
+    <title>Sketchmind start</title>
     <style>
         body{
             background-image:url('static/start.jpg')
@@ -14,19 +14,25 @@
 </head>
 
 <body>
-    <header class="header">
+    <header class="header" style="background-color: #ffffff;">
         <div id="header_title">Sketchmind</div>
         <div id="header_info">Doyoung Kim, Minuk Kim, Hyunjin Kim, Banseok Woo</div>
     </header>
     <main class = "main">
         <div>
-            <input class="btn btn-primary col-md-1" type="button" value="sketchmind start" id="btn" onclick="location.href = 'canvas'">
+            <a href = canvas.html>
+                <input class="btn btn-primary col-md-1" type="button" value="sketchmind start" id="btn">
+            </a>
+                    </div>
+        <div>
+            <a>
+                <input class="btn btn-primary col-md-1" type="button" value="revenge of AI" id="btn">
+            </a>
         </div>
         <div>
-            <input class="btn btn-primary col-md-1" type="button" value="revenge of AI" id="btn" onclick="location.href = 'revenge_of_ai'">
-        </div>
-        <div>
-            <input class="btn btn-primary col-md-1" type="button" value="How to play" id="btn" onclick="location.href = 'how_to_play_1'">
+            <a href = how_to_play.html>
+                <input class="btn btn-primary col-md-1" type="button" value="How to play" id="btn">
+            </a>
         </div>
     </main>
 </body>
