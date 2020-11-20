@@ -1,22 +1,75 @@
 import os
-from flask import Flask
+from flask import Flask, render_template, request
 from flask import render_template
 from models import db
+
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import  FileStorage
+
+import numpy as np
+from PIL import Image
+import base64
+import re
+try:
+       from cStringIO import StringIO  # Py2 C accelerated version
+except ImportError:
+       try:
+           from StringIO import StringIO  # Py2 fallback version
+       except ImportError:
+           from io import StringIO  # Py3 version
 
 app = Flask(__name__)
 
 @app.route('/')
 def start():
 	return render_template('start.html')
+
 @app.route('/canvas')
 def canvas():
 	return render_template('canvas.html')
+
+@app.route('/how_to_play')
+def how_to_play():
+	return render_template('how_to_play.html')
+
 @app.route('/result')
-def canvas():
+def result():
 	return render_template('result.html')
+@app.route('/revenge')
+def revenge():
+	return render_template('revenge.html')
 @app.route('/statistics')
-def canvas():
+def statistics():
 	return render_template('statistics.html')
+
+""" test중... 서버 사이드에서 이미지 받기 """
+
+""" @app.route('/hook', methods=['POST'])
+def get_image():
+    image_b64 = request.values['imageBase64']
+    image_data = re.sub('^data:image/.+;base64,', '', image_b64)
+    image_PIL = Image.open(StringIO(image_b64))
+    image_np = np.array(image_PIL)
+    print ('Image received: {}'.format(image_np.shape))
+    return '' """
+
+
+@app.route('/hook', methods=['POST'])
+def get_image():
+    image_b64 = request.values['imageBase64']
+    console.log(image_b64)
+    return ''
+
+@app.route('/fileUpload', methods = ['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(secure_filename(f.filename))
+        #--------------------------------------------------------
+        #save한 이미지로 classification 진행
+        #--------------------------------------------------------
+        return 'success, tag: Apple'
+
 if __name__ == '__main__':
     basedir = os.path.abspath(os.path.dirname(__file__))
     dbfile = os.path.join(basedir, 'db.sqlite')

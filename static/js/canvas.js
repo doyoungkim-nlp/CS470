@@ -3,6 +3,7 @@ let x = 0;
 let y = 0;
 
 const myPics = document.getElementById("canvas");
+const saveBtn = document.getElementById("btn")
 const context = myPics.getContext('2d');
 
 // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
@@ -31,12 +32,34 @@ window.addEventListener('mouseup', e => {
   }
 });
 
+saveBtn.addEventListener('click', handleSave)
+
 function drawLine(context, x1, y1, x2, y2) {
   context.beginPath();
-  context.strokeStyle = 'black';
+  context.strokeStyle = 'white';
   context.lineWidth = 1;
   context.moveTo(x1, y1);
   context.lineTo(x2, y2);
   context.stroke();
   context.closePath();
+}
+
+function handleSave() {
+  const image = canvas.toDataURL("image/jpeg", 1.0);
+/*   const link = document.createElement("a")
+  link.href = image;
+  link.download = "Paint"
+  link.click() */
+
+console.log("about to send")
+  $.ajax({
+    type: "POST",
+    url: "http://url/hook",
+    data:{
+      imageBase64: image
+    }
+  }).done(function() {
+    console.log('sent');
+  
+  });
 }
