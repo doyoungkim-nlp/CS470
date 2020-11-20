@@ -28,6 +28,9 @@ def start():
 def canvas():
 	return render_template('canvas.html')
 
+@app.route('/how_to_play')
+def how_to_play():
+	return render_template('how_to_play.html')
 @app.route('/result')
 def result():
 	return render_template('result.html')

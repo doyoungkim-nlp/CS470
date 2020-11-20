@@ -10,7 +10,7 @@
         }
     </style>
 
-    <link rel = "stylesheet" href="stylesheet/style.css">
+    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
@@ -20,13 +20,19 @@
     </header>
     <main class = "main">
         <div>
-            <input class="btn btn-primary col-md-1" type="button" value="sketchmind start" id="btn" onclick="location.href = 'canvas.html'">
+            <a href = canvas.html>
+                <input class="btn btn-primary col-md-1" type="button" value="sketchmind start" id="btn">
+            </a>
+                    </div>
+        <div>
+            <a>
+                <input class="btn btn-primary col-md-1" type="button" value="revenge of AI" id="btn">
+            </a>
         </div>
         <div>
-            <input class="btn btn-primary col-md-1" type="button" value="revenge of AI" id="btn" onclick="location.href = 'revenge_of_ai.html'">
-        </div>
-        <div>
-            <input class="btn btn-primary col-md-1" type="button" value="How to play" id="btn" onclick="location.href = 'how_to_play.html'">
+            <a href = how_to_play.html>
+                <input class="btn btn-primary col-md-1" type="button" value="How to play" id="btn">
+            </a>
         </div>
     </main>
 </body>
