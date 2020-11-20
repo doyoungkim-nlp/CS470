@@ -8,7 +8,7 @@ a{text-decoration: none;} /* 링크에 밑줄 같은거 제거*/
 header{
     font-family: colored-crayons-font;
     width: 660px; /*메인 이미지의 너비 사이즈와 같음*/
-    height: 130px;
+    height: 0;
     position: relative;
     margin-top: 10%;
     margin-left:auto;
@@ -41,31 +41,11 @@ main{
 #btn{
     font-family: colored-crayons-font;
     border: 3px solid #2196F3;
-    font-size: 30px;
+    font-size: 20px;
     border-radius: 5px;
     background-color: #2196F3;
     color: white;
     margin: 10px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-#smlbtn_yes{
-    font-family: colored-crayons-font;
-    border: 3px solid green;
-    font-size: 20px;
-    border-radius: 5px;
-    background-color: white;
-    color: green;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-#smlbtn_no{
-    font-family: colored-crayons-font;
-    border: 3px solid red;
-    font-size: 20px;
-    border-radius: 5px;
-    background-color: white;
-    color: red;
     padding-left: 5px;
     padding-right: 5px;
 }
