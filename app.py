@@ -36,9 +36,9 @@ def result():
 def statistics():
 	return render_template('statistics.html')
 
-""" test중... 서버 사이드에서 이미지 받기
+""" test중... 서버 사이드에서 이미지 받기 """
 
-@app.route('/hook', methods=['POST'])
+""" @app.route('/hook', methods=['POST'])
 def get_image():
     image_b64 = request.values['imageBase64']
     image_data = re.sub('^data:image/.+;base64,', '', image_b64)
@@ -46,6 +46,13 @@ def get_image():
     image_np = np.array(image_PIL)
     print ('Image received: {}'.format(image_np.shape))
     return '' """
+
+
+@app.route('/hook', methods=['POST'])
+def get_image():
+    image_b64 = request.values['imageBase64']
+    console.log(image_b64)
+    return ''
 
 @app.route('/fileUpload', methods = ['GET', 'POST'])
 def upload_file():
