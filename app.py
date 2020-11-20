@@ -34,7 +34,9 @@ def how_to_play():
 @app.route('/result')
 def result():
 	return render_template('result.html')
-
+@app.route('/revenge')
+def revenge():
+	return render_template('revenge.html')
 @app.route('/statistics')
 def statistics():
 	return render_template('statistics.html')
