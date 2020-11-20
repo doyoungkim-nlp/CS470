@@ -22,9 +22,12 @@
             </div>
             <main class = "main">
                 <div>
-                    <input class="btn btn-primary col-md-1" type="button" value="predict" id="btn">
+                    <a href = "result">
+                        <input class="btn btn-primary col-md-1" type="button" value="predict" id="btn">
+                    </a>
+                    
                 </div>
-                <script src="../js/canvas.js"></script>
+                <script src="{{url_for('static', filename='js/canvas.js') }}"></script>
             </main>
 
             <form action = "http://localhost:5000/fileUpload" method = "POST"
