@@ -46,15 +46,11 @@ function drawLine(context, x1, y1, x2, y2) {
 
 function handleSave() {
   const image = canvas.toDataURL("image/jpeg", 1.0);
-/*   const link = document.createElement("a")
-  link.href = image;
-  link.download = "Paint"
-  link.click() */
 
 console.log("about to send")
   $.ajax({
     type: "POST",
-    url: "http://localhost:5000/hook",
+    url: "http://localhost:5000/result",
     data:{
       imageBase64: image
     }

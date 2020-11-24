@@ -35,97 +35,37 @@ def canvas():
 def how_to_play():
 	return render_template('how_to_play.html')
 
-@app.route('/result')
+@app.route('/result', methods=['GET', 'POST'])
 def result():
-	return render_template('result.html')
+    if request.method == 'POST':
+        image_b64 = request.values['imageBase64']
+        encoded_data = image_b64.split(',')[1]
+        decoded = base64.b64decode(encoded_data)
+
+        image_string = BytesIO(decoded)
+        image_PIL = Image.open(image_string)
+        image_np = np.array(image_PIL)
+        # image_np에 저장됨.
+
+
+        with open('some_image.jpg', 'wb') as f: 
+            f.write(decoded)
+        with open('label.txt', 'wb') as f: 
+            f.write("as".encode())
+        return ''
+    else:
+        label = ''
+        with open('label.txt', 'rb') as f: 
+            label = f.readline().decode()
+            return render_template('result.html', label=label)
+
 @app.route('/revenge')
 def revenge():
 	return render_template('revenge.html')
+
 @app.route('/statistics')
 def statistics():
 	return render_template('statistics.html')
-
-""" test중... 서버 사이드에서 이미지 받기 """
-
-""" @app.route('/hook', methods=['POST'])
-def get_image():
-    image_b64 = request.values['imageBase64']
-    image_data = re.sub('^data:image/.+;base64,', '', image_b64)
-    image_PIL = Image.open(StringIO(image_b64))
-    image_np = np.array(image_PIL)
-    print ('Image received: {}'.format(image_np.shape))
-    return '' """
-
-
-@app.route('/hook', methods=['POST'])
-def get_image():
-    image_b64 = request.values['imageBase64']
-    encoded_data = image_b64.split(',')[1]
-    decoded = base64.b64decode(encoded_data)
-
-    img= Image.open("start.jpg")
-    np_img = np.array(img)
-    I_image_b64 = base64.b64encode(np_img)
-    I_image_b64 = base64.b64decode(I_image_b64)
-    image222 = base64.b64encode(decoded)
-
-
-    print("===   ", image_b64, " ===")
-    print("===   ", image222, " ===")
-    
-
-    image_string = BytesIO(decoded)
-    image_PIL = Image.open(image_string)
-    image_np = np.array(image_PIL)
-
-    I_image_b64 = base64.b64encode(image_np)
-    print(I_image_b64)
-    I_image_b64 = base64.b64decode(I_image_b64)
-
-
-
-    nparr = np.fromstring(decoded, np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    cv2.imshow('img', image_np)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-
-    filename = 'some_image.jpg'  # I assume you have a way of picking unique filenames
-    with open(filename, 'wb') as f: 
-        f.write(I_image_b64)
-
-    
-
-
-
-
-
-
-
-    # image_data = re.sub('^data:image/.+;base64,', '', image_b64)
-    # image_PIL = Image.open(StringIO(image_b64))
-    # image_np = np.array(image_PIL)
-    # print ('Image received: {}'.format(image_np.shape))
-    # print('data: ', image_b64)
-    return ''
-
-@app.route('/ajax', methods=['POST'])
-def ajax():
-    data = request.get_json()
-    print(data)
-
-    return jsonify(result = "ddd", result2= data)
-
-@app.route('/fileUpload', methods = ['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        f = request.files['file']
-        f.save(secure_filename(f.filename))
-        #--------------------------------------------------------
-        #save한 이미지로 classification 진행
-        #--------------------------------------------------------
-        return 'success, tag: Apple'
 
 if __name__ == '__main__':
     basedir = os.path.abspath(os.path.dirname(__file__))
