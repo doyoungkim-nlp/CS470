@@ -54,7 +54,7 @@ function handleSave() {
 console.log("about to send")
   $.ajax({
     type: "POST",
-    url: "http://url/hook",
+    url: "http://localhost:5000/hook",
     data:{
       imageBase64: image
     }
