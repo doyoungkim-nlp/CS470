@@ -47,7 +47,9 @@ def result():
         image_np = np.array(image_PIL)
         # image_np에 저장됨.
 
-
+        dateTime = request.values['dateTime']
+        print("dateTime: ", dateTime)
+        
         with open('some_image.jpg', 'wb') as f: 
             f.write(decoded)
         with open('label.txt', 'wb') as f: 

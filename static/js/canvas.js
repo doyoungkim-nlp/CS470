@@ -46,12 +46,20 @@ function drawLine(context, x1, y1, x2, y2) {
 
 function handleSave() {
   const image = canvas.toDataURL("image/jpeg", 1.0);
+  var currentdate = new Date(); 
+  var datetime = currentdate.getFullYear() + "."
+                  + (currentdate.getMonth()+1)  + "." 
+                  + currentdate.getDate() + "."  
+                  + currentdate.getHours() + ":"  
+                  + currentdate.getMinutes() + ":" 
+                  + currentdate.getSeconds();
 
 console.log("about to send")
   $.ajax({
     type: "POST",
     url: "http://localhost:5000/result",
     data:{
+      dateTime : datetime,
       imageBase64: image
     }
   }).done(function() {
