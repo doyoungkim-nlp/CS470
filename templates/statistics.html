@@ -9,9 +9,153 @@
             background-image:url('static/start.jpg')
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel = "stylesheet" href="{{ url_for('static', filename='css/statistics.css') }}">
 </head>
 
 <body>
+
+    <main class = "main" style = "font-family: colored-crayons-font;">
+        <table style = "border: 1px solid black; background-color: #ffffff; margin-top: 3%;">
+            <th style = "width: 500px">overall statistics</th>
+            <th style = "width: 700px">your last attempt</th>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+            
+            <tr><!-- 첫번째 줄 시작 -->
+                <td>
+                    <script type="text/javascript"  src="{{url_for('static', filename='js/linechart.js') }}"></script>
+                    <div id = "linechart_div">
+                    </div>
+                </td>
+                <td>
+                        <img  src="static/jumbotron.png"  alt ="classified image"  width="200" height="200" > 
+                </td>
+            </tr><!-- 첫번째 줄 끝 -->
+            <tr><!-- 두번째 줄 시작 -->
+                <td>
+                    <script type="text/javascript"  src="{{url_for('static', filename='js/linechart.js') }}"></script>
+                    <div id = "linechart_div">
+                    </div>
+                </td>
+                <td>
+                        <img  src="static/jumbotron.png"  alt ="classified image"  width="200" height="200" > 
+                </td>
+            </tr><!-- 두번째 줄 끝 -->
+        </table>
+        <div>
+            <div class="helper"></div>
+            <div class = "item_1 item" style="overflow:auto; width: 800px; height: 200px;">
+                <table >
+                    <th>attempt history</th>
+                    <th>date</th>
+                    <th>category</th>
+                    <th>image</th>
+                    <th>predicted</th>
+                    <th>right or wrong?</th>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            2020.11.27.15:08:11
+                        </td>
+                        <td>
+                            revenge of AI
+                        </td>
+                        <td>
+                            <img  src="static/jumbotron.png"  alt ="classified image"  width="50" height="50" > 
+                        </td>
+                        <td>
+                            apple
+                        </td>
+                        <td>
+                            right!
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            2
+                        </td>
+                        <td>
+                            2020.11.26.13:12:23
+                        </td>
+                        <td>
+                            sketchmind
+                        </td>
+                        <td>
+                            <img  src="static/jumbotron.png"  alt ="classified image"  width="50" height="50" > 
+                        </td>
+                        <td>
+                            airplane, book, toothpaste
+                        </td>
+                        <td>
+                            wrong!
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            3
+                        </td>
+                        <td>
+                            2020.11.22.22:00:10
+                        </td>
+                        <td>
+                            revenge of AI
+                        </td>
+                        <td>
+                            <img  src="static/jumbotron.png"  alt ="classified image"  width="50" height="50" > 
+                        </td>
+                        <td>
+                            knife
+                        </td>
+                        <td>
+                            right!
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            4
+                        </td>
+                        <td>
+                            2020.11.22.22:00:03
+                        </td>
+                        <td>
+                            revenge of AI
+                        </td>
+                        <td>
+                            <img  src="static/jumbotron.png"  alt ="classified image"  width="50" height="50" > 
+                        </td>
+                        <td>
+                            cat
+                        </td>
+                        <td>
+                            wrong!
+                        </td>
+                    </tr>
+                </table>
     
+            </div>
+            <div class = "item_2 item" style=" font-size: 30px; width: 380px; height: 200px;">
+                <a href = "./">
+                    <input class="btn btn-primary col-md-1" type="button" value="go to start menu" id="btn">
+                </a>
+                <a href = gallery>
+                    <input class="btn btn-primary col-md-1" type="button" value="go to gallery" id="btn">
+                </a>
+                <div >
+                    <p>want to contribute?</p>
+                    <i>
+                        <a href="https://github.com/ikevin98/CS470" class="fa fa-github" style="font-size:30px; color:black"></a>
+                    </i>   
+                    <i>
+                        <a href="https://quickdraw.withgoogle.com/#" class="fa fa-google" style="font-size:30px; color: red"></a>
+                    </i>   
+                </div>             
+            </div>
+        </div>
+       
+        
+    </main>
 </body>
 </html>
