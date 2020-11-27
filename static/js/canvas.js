@@ -43,6 +43,23 @@ function drawLine(context, x1, y1, x2, y2) {
   context.stroke();
   context.closePath();
 }
+function save() {
+  var dataURL = canvas.toDataURL();
+  // get base64 string from dataUrl
+  dataURL = dataURL.split(",")[1];
+  //  replace base64 characters '+/=' with '._-'
+  while (dataURL.indexOf('+') > 0) {
+     dataURL  = dataURL.replace('+', '.');
+  }
+  while (dataURL.indexOf('/') > 0) {
+     dataURL  = dataURL.replace('/', '_');
+  }
+  while (dataURL.indexOf('=') > 0) {
+     dataURL  = dataURL.replace('=', '-');
+  }
+
+  window.location.href = '/result/' + dataURL;
+}
 
 function handleSave() {
   const image = canvas.toDataURL("image/jpeg", 1.0);

@@ -14,6 +14,28 @@ import cv2
 import time
 
 import re
+# import Plotly
+import plotly
+#import plotly.plotly as py
+import chart_studio.plotly as py
+import plotly.graph_objs as go
+
+# import Flask
+from flask import Flask
+from flask import render_template, request
+
+# import image processing
+import sys
+sys.path.insert(0, '../')
+import sketch_recognition_model.image_utils
+from sketch_recognition_model.image_utils import crop_image, normalize_image, convert_to_rgb, convert_to_np
+
+# import pytorch
+import torch
+from torch import nn
+from torch import optim
+import torch.nn.functional as F
+from torchvision import datasets, transforms
 try:
        from cStringIO import StringIO  # Py2 C accelerated version
 except ImportError:
