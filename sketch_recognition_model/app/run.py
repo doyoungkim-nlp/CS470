@@ -282,7 +282,7 @@ def pred(dataURL):
 def main():
     print("input size : ", input_size)
     print("output_size : ", output_size)
-    app.run(host='222.114.173.63', port=3001, debug=True)
+    app.run(host='127.0.0.1', port=3001, debug=True)
 
 
 if __name__ == '__main__':
