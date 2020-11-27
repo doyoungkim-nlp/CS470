@@ -24,6 +24,25 @@
                 <div style="background-color: #ffffff;">
                         <input class="btn btn-primary col-md-1" type="button" value="predict" id="btn" onclick = "save()">
                 </div>
+                <script>
+                    function save() {
+                        var dataURL = canvas.toDataURL();
+                        // get base64 string from dataUrl
+                        dataURL = dataURL.split(",")[1];
+                        //  replace base64 characters '+/=' with '._-'
+                        while (dataURL.indexOf('+') > 0) {
+                            dataURL  = dataURL.replace('+', '.');
+                        }
+                        while (dataURL.indexOf('/') > 0) {
+                            dataURL  = dataURL.replace('/', '_');
+                        }
+                        while (dataURL.indexOf('=') > 0) {
+                            dataURL  = dataURL.replace('=', '-');
+                        }
+
+                        window.location.href = '/go/' + dataURL;
+                        }
+                </script>
                 <script src="{{url_for('static', filename='js/canvas.js') }}"></script>
             </main>
         </div>

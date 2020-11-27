@@ -17,15 +17,33 @@
     <body>
         <div class = "container">
             <div style=" text-align: center; margin: 3% 3% auto;">
-                <img  src="static/jumbotron.png"  alt ="classified image"  width="400" height="400" > 
+                <div class ="col-5">
+                    <img id="canvasimg" style="display:none;">
+                </div>
+                <script type="text/javascript">
+                    // render drawn image
+                    dataUrl = "data:image/png;base64," + '{{dataURL}}'
+                    document.getElementById("canvasimg").style.border = "2px solid";
+                    document.getElementById("canvasimg").src = dataUrl;
+                    document.getElementById("canvasimg").style.display = "inline";
+                </script> 
                 <div style="font-family: colored-crayons-font; font-size: 30px;">
                     <div>
-                        <p>Is it a(an) {{ label }} ?</p>
+                        <p>Is this a {{result}}?</p>
                         <p>The time is {{ dateTime }}</p>
                     </div>
                     <div >
                         <input class="btn btn-primary col-md-1" type="button" value="no" id="smlbtn_no" onclick="save()">
                         <input class="btn btn-primary col-md-1" type="button" value="yes" id="smlbtn_yes" onclick="save()">
+                        <script type="text/javascript">
+                            // render plot with probabilities for each class
+                            const graphs = {{graphJSON | safe}};
+                            const ids = {{ids | safe}};
+                            for(let i in graphs) {
+                                Plotly.plot(ids[i], graphs[i].data, graphs[i].layout);
+                            }
+                            console.log('graphs rendered');
+                        </script>
                     </div>                    
                 </div> 
             </div>

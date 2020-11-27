@@ -96,7 +96,7 @@ from torchvision import datasets, transforms
 label_dict = {0:'cannon',1:'eye', 2:'face', 3:'nail', 4:'pear',
               5:'piano',6:'radio', 7:'spider', 8:'star', 9:'sword'}
 
-def load_model(filepath = '../checkpoints/checkpoint_simpleNet.pth'):
+def load_model(filepath = 'sketch_recognition_model/checkpoints/checkpoint_simpleNet.pth'):
     """
     Function loads the model from checkpoint.
 
@@ -225,6 +225,10 @@ def view_classify(img, preds):
 
 app = Flask(__name__)
 
+# load model
+model, input_size, output_size = load_model()
+model.eval() # set to evaluation
+
 @app.route('/')
 def start():
 	return render_template('start.html')
@@ -345,7 +349,7 @@ def pred(dataURL):
 
     # render the hook.html passing prediction resuls
     return render_template(
-        'hook.html',
+        'result.html',
         result = label_num, # predicted class label
         ids=ids, # plotly graph ids
         graphJSON=graphJSON, # json plotly graphs
