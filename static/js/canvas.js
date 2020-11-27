@@ -78,7 +78,7 @@ function handleSave() {
 console.log("about to send")
   $.ajax({
     type: "POST",
-    url: "http://localhost:5000/result",
+    url: "http://222.114.173.63:5000/result",
     data:{
       dateTime : dateTime,
       imageBase64: image

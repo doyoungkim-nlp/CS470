@@ -9,6 +9,21 @@ Script which runs flask web application for Quick Draw
 
 """
 #import libraries
+
+import subprocess
+import sys
+
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+import pip
+
+def install(package):
+    if hasattr(pip, 'main'):
+        pip.main(['install', package])
+    else:
+        pip._internal.main(['install', package])
+
 import numpy as np
 from PIL import Image
 import base64
@@ -52,6 +67,8 @@ from models.simple_conv_nn import SimpleCNN
 from models.RMDL import RMDL
 from models.SimpleNet import SimpleNet_v1
 from models.VGG8b import vgg8b
+
+
 
 
 # Dictionary with label codes
