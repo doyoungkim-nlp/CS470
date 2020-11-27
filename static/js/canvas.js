@@ -50,11 +50,11 @@ function handleSave() {
 
   var year    = currentdate.getFullYear();
   var month   = currentdate.getMonth() + 1; 
-  var date     = currentdate.getDate();
+  var date    = currentdate.getDate();
   var hour    = currentdate.getHours();
   var minute  = currentdate.getMinutes();
   var second  = currentdate.getSeconds(); 
-  
+
   if(month.toString().length == 1) {
       month = '0' + month;
   }
