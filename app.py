@@ -54,14 +54,16 @@ def result():
         with open('some_image.jpg', 'wb') as f: 
             f.write(decoded)
         with open('label.txt', 'wb') as f: 
-            f.write("apple3".encode())
+            f.write(("apple3" + ';' + dateTime).encode())
         return ''
     else:
         label = ''
         time.sleep(0.1) # 0.03 works 0.02 not
         with open('label.txt', 'rb') as f: 
-            label = f.readline().decode()
-            return render_template('result.html', label=label)
+            firstline = f.readline().decode()
+            label = firstline.split(';')[0]
+            dateTime = firstline.split(';')[1]
+            return render_template('result.html', label=label, dateTime=dateTime)
 
 @app.route('/revenge')
 def revenge():
