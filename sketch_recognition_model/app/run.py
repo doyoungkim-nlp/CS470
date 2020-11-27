@@ -10,20 +10,6 @@ Script which runs flask web application for Quick Draw
 """
 #import libraries
 
-import subprocess
-import sys
-
-def install(package):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
-import pip
-
-def install(package):
-    if hasattr(pip, 'main'):
-        pip.main(['install', package])
-    else:
-        pip._internal.main(['install', package])
-
 import numpy as np
 from PIL import Image
 import base64
@@ -202,7 +188,7 @@ def view_classify(img, preds):
     ts = time.time()
     plt.savefig('prediction' + str(ts) + '.png')
 
-app = Flask(__name__)
+app = Flask(__name__) 
 
 # load model
 model, input_size, output_size = load_model()
@@ -296,7 +282,7 @@ def pred(dataURL):
 def main():
     print("input size : ", input_size)
     print("output_size : ", output_size)
-    app.run(host='127.0.0.1', port=3001, debug=True)
+    app.run(host='222.114.173.63', port=3001, debug=True)
 
 
 if __name__ == '__main__':
