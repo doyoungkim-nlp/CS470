@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="ko">
+<html>
     <head>
         <meta charset='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
-        <title>Result</title>
+        <title>Result_revenge</title>
         <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -17,16 +16,25 @@
     </head>
     <body>
         <div class = "container">
-            <div style=" text-align: center; margin: 3% auto;">
+            <div style=" text-align: center; margin: 3% 3% auto;">
                 <img  src="static/jumbotron.png"  alt ="classified image"  width="400" height="400" > 
             </div>
             <main class = "main">
-                <div style="background-color: #ffffff; font-family: colored-crayons-font; font-size: 30px; padding-top: 20px;">
-                    <p>What is this?</p>
-                    <form action= "result_revenge" method ="GET">
-                        <input type = "text" style = "font-size: 30px; font-family: colored-crayons-font; width:280px;" name= "class">
-                        <input type="submit"id="btn"value="predict!">
-                    </form>
+                    <div style="font-family: colored-crayons-font; font-size: 30px; margin-top: 30px; margin-bottom: 10px; padding: 10px;">
+                        <div style="background-color: #ffffff; ">
+                            <p>You are wrong!</p>
+                            <p>It is a(an) apple!</p>
+                        </div>             
+                    </div>
+                <div style="background-color: #ffffff;">
+                    <a href = statistics>
+                        <input class="btn btn-primary col-md-1" type="button" value="go to statistics" id="btn">
+                    </a>
+                </div>
+                <div style="background-color: #ffffff;">
+                    <a href = "./">
+                        <input class="btn btn-primary col-md-1" type="button" value="go to start menu" id="btn">
+                    </a>
                 </div>
             </main>
         </div>

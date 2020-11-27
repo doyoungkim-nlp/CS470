@@ -16,25 +16,25 @@
     </head>
     <body>
         <div class = "container">
-            <div style=" text-align: center; margin: 3% auto;">
+            <div style=" text-align: center; margin: 3% 3% auto;">
                 <img  src="static/jumbotron.png"  alt ="classified image"  width="400" height="400" > 
-                <div style="font-family: colored-crayons-font; font-size: 30px;">
-                    <div>
-                        <p>Is it a(an) {{ label }} ?</p>
-                    </div>
-                    <div >
-                        <input class="btn btn-primary col-md-1" type="button" value="no" id="smlbtn_no" onclick="save()">
-                        <input class="btn btn-primary col-md-1" type="button" value="yes" id="smlbtn_yes" onclick="save()">
-                    </div>                    
-                </div> 
             </div>
             <main class = "main">
-                <div>
+                    <div style="font-family: colored-crayons-font; font-size: 30px; margin-top: 30px; margin-bottom: 10px; padding: 10px;">
+                        <div style="background-color: #ffffff; ">
+                            <p>Is it a(an) {{ label }} ?</p>
+                        </div>
+                        <div style="background-color: #ffffff;">
+                            <input class="btn btn-primary col-md-1" type="button" value="no" id="smlbtn_no" onclick="save()">
+                            <input class="btn btn-primary col-md-1" type="button" value="yes" id="smlbtn_yes" onclick="save()">
+                        </div>                    
+                    </div>
+                <div style="background-color: #ffffff;">
                     <a href = statistics>
                         <input class="btn btn-primary col-md-1" type="button" value="go to statistics" id="btn">
                     </a>
                 </div>
-                <div>
+                <div style="background-color: #ffffff;">
                     <a href = "./">
                         <input class="btn btn-primary col-md-1" type="button" value="go to start menu" id="btn">
                     </a>

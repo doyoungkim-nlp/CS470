@@ -30,6 +30,12 @@ def start():
 @app.route('/canvas')
 def canvas():
 	return render_template('canvas.html')
+@app.route('/gallery')
+def gallery():
+	return render_template('gallery.html')
+@app.route('/result_revenge')
+def result_revenge():
+	return render_template('result_revenge.html')
 
 @app.route('/how_to_play')
 def how_to_play():
