@@ -11,6 +11,7 @@ from PIL import Image
 import base64
 from io import BytesIO
 import cv2
+import time
 
 import re
 try:
@@ -49,14 +50,15 @@ def result():
 
         dateTime = request.values['dateTime']
         print("dateTime: ", dateTime)
-        
+
         with open('some_image.jpg', 'wb') as f: 
             f.write(decoded)
         with open('label.txt', 'wb') as f: 
-            f.write("as".encode())
+            f.write("apple2".encode())
         return ''
     else:
         label = ''
+        time.sleep(0.1)
         with open('label.txt', 'rb') as f: 
             label = f.readline().decode()
             return render_template('result.html', label=label)

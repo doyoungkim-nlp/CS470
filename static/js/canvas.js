@@ -64,6 +64,5 @@ console.log("about to send")
     }
   }).done(function() {
     console.log('sent');
-  
   });
 }
