@@ -208,7 +208,7 @@ def view_classify(img, preds):
     """
     preds = preds.squeeze()
 
-    fig, (ax1, ax2) = plt.subplots(figsize=(6,9), ncols=2)
+    fig, (ax1, ax2) = plt.subplots(figsize=(6,3), ncols=2)
     ax1.imshow(img.squeeze())
     ax1.axis('off')
     ax2.barh(np.arange(10), preds)
@@ -221,7 +221,7 @@ def view_classify(img, preds):
     plt.tight_layout()
 
     ts = time.time()
-    plt.savefig('prediction' + str(ts) + '.png')
+    plt.savefig('history/prediction' + str(ts) + '.png')
 
 app = Flask(__name__)
 
