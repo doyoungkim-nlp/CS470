@@ -18,6 +18,16 @@
         <div class = "container">
             <div style=" text-align: center; margin: 3% 3% auto;">
                 <img  src="static/jumbotron.png"  alt ="classified image"  width="400" height="400" > 
+                <div style="font-family: colored-crayons-font; font-size: 30px;">
+                    <div>
+                        <p>Is it a(an) {{ label }} ?</p>
+                        <p>The time is {{ dateTime }}</p>
+                    </div>
+                    <div >
+                        <input class="btn btn-primary col-md-1" type="button" value="no" id="smlbtn_no" onclick="save()">
+                        <input class="btn btn-primary col-md-1" type="button" value="yes" id="smlbtn_yes" onclick="save()">
+                    </div>                    
+                </div> 
             </div>
             <main class = "main">
                     <div style="font-family: colored-crayons-font; font-size: 30px; margin-top: 30px; margin-bottom: 10px; padding: 10px;">
