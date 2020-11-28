@@ -1,57 +1,15 @@
 import os
-from flask import Flask, render_template, request, jsonify
-from flask import render_template
 from models import db
 
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 
-import numpy as np
-from PIL import Image
-import base64
-from io import BytesIO
 import cv2
-import time
-
-import re
-# import Plotly
-import plotly
-#import plotly.plotly as py
-import chart_studio.plotly as py
-import plotly.graph_objs as go
-
-# import Flask
-from flask import Flask
-from flask import render_template, request
-
-# import image processing
-import sys
-sys.path.insert(0, '../')
-import sketch_recognition_model.image_utils
-from sketch_recognition_model.image_utils import crop_image, normalize_image, convert_to_rgb, convert_to_np
-
-# import pytorch
-import torch
-from torch import nn
-from torch import optim
-import torch.nn.functional as F
-from torchvision import datasets, transforms
-try:
-       from cStringIO import StringIO  # Py2 C accelerated version
-except ImportError:
-       try:
-           from StringIO import StringIO  # Py2 fallback version
-       except ImportError:
-           from io import StringIO  # Py3 version
-
-
 
 from sketch_recognition_model.models.simple_conv_nn import SimpleCNN
 from sketch_recognition_model.models.RMDL import RMDL
 from sketch_recognition_model.models.SimpleNet import SimpleNet_v1
 from sketch_recognition_model.models.VGG8b import vgg8b
-
-
 
 import numpy as np
 from PIL import Image
@@ -75,8 +33,7 @@ import chart_studio.plotly as py
 import plotly.graph_objs as go
 
 # import Flask
-from flask import Flask
-from flask import render_template, request
+from flask import Flask, render_template, request, jsonify
 
 # import image processing
 import sys
@@ -90,6 +47,10 @@ from torch import nn
 from torch import optim
 import torch.nn.functional as F
 from torchvision import datasets, transforms
+
+
+from datetime import datetime
+
 
 
 # Dictionary with label codes
@@ -222,6 +183,22 @@ def view_classify(img, preds):
 
     ts = time.time()
     plt.savefig('history/prediction' + str(ts) + '.png')
+
+
+
+    label_1 = np.argsort(preds)[-1]
+    label_2 = np.argsort(preds)[-2]
+    label_3 = np.argsort(preds)[-3]
+
+    label_list = ['cannon','eye', 'face', 'nail', 'pear','piano','radio','spider','star','sword']
+
+    print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), label_1, label_2, label_3)
+
+    with open('history.txt', 'a') as f: 
+        print("about to write to label.txt")
+        f.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ';' + label_list[label_1] + ';' + label_list[label_2] + ';' + label_list[label_3] + '\n')
+
+
 
 app = Flask(__name__)
 
