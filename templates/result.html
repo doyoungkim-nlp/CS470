@@ -9,6 +9,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <!-- Plotly-->
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
         <style type="text/css">
             canvas{border: 1px solid black}
             body{
@@ -22,11 +23,6 @@
                 <div class="row">
                     <div class ="col-1">
                     </div>
-                    {% for id in ids %}
-                        <div class ="col-5">
-                            <div id="{{id}}"></div>
-                        </div>
-                    {% endfor %}
                     <div class ="col-1">
                     </div>
                     <div class ="col-5">
@@ -47,12 +43,21 @@
                     </div>
                     <div >
                         <input class="btn btn-primary col-md-1" type="button" value="no" id="smlbtn_no" onclick="changeText(this.value)">
+                        <a href = "../statistics">
+                            <input class="btn btn-primary col-md-1" type="button" value="yes" id="smlbtn_yes">
+                        </a>
 
-                        <input class="btn btn-primary col-md-1" type="button" value="yes" id="smlbtn_yes" onclick="changeText(this.value)">
 
                     </div>
                     <script type="text/javascript">
                         var clicks = 0;
+                        var list = [];
+                                    $.getJSON('../static/history.json', function(data) {         
+                                        $.each( data.history, function( key, val ){
+                                            list.push( val );
+                                            console.log(val);
+                                        });
+                                    });
                         function changeText(value) {
                             if (value === "no") {
                                 clicks += 1;
@@ -61,25 +66,39 @@
                                 } else if (clicks === 2) {
                                     document.getElementById('label_text').innerHTML = "Is this a {{label_str_3}}?";
                                 } else {
-                                    window.location.href = '../statistics/' + String(clicks);
+                                    console.log(list);
+                                    console.log(list.length);
+                                    console.log(list[list.length-1]);
+                                    console.log(list[list.length-1].correctness)
+                                    list[list.length-1].correctness = "wrong!"
+                                    var obj = new Object();
+                                    obj.history = list
+                                    var obj_s = JSON.stringify(obj);
+                                    function download(filename, text) {
+                                        var element = document.createElement('a');
+                                        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                                        element.setAttribute('download', filename);
+
+                                        element.style.display = 'none';
+                                        document.body.appendChild(element);
+
+                                        element.click();
+
+                                        document.body.removeChild(element);
+                                        }
+
+                                        // Start file download.
+                                    download("history.json",obj_s);
+                                    window.location.href = '../statistics/';
                                 }
-                            } else {
-                                window.location.href = '../statistics/' + String(clicks);
+                                
                             }
+                            
                         }
                     </script>
                 </div> 
             </div>
             <main class = "main">
-                    <div style="font-family: colored-crayons-font; font-size: 30px; margin-top: 30px; margin-bottom: 10px; padding: 10px;">
-                        <div style="background-color: #ffffff; ">
-                            <p>Is it</p>
-                        </div>
-                        <div style="background-color: #ffffff;">
-                            <input class="btn btn-primary col-md-1" type="button" value="no" id="smlbtn_no" onclick="save()">
-                            <input class="btn btn-primary col-md-1" type="button" value="yes" id="smlbtn_yes" onclick="save()">
-                        </div>                    
-                    </div>
                 <div style="background-color: #ffffff;">
                     <a href = "../statistics">
                         <input class="btn btn-primary col-md-1" type="button" value="go to statistics" id="btn">
@@ -91,17 +110,7 @@
                     </a>
                 </div>
             </main>
-            {% block body %}
-            <script type="text/javascript">
-                // render plot with probabilities for each class
-                const graphs = {{graphJSON | safe}};
-                const ids = {{ids | safe}};
-                for(let i in graphs) {
-                    Plotly.plot(ids[i], graphs[i].data, graphs[i].layout);
-                }
-                console.log('graphs rendered');
-            </script>
-            {% endblock %}
+
         </div>
     </body>
 </html>

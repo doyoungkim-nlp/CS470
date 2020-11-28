@@ -8,3 +8,6 @@ sketch_recognition_model/models/__pycache__/RMDL.cpython-38.pyc
 sketch_recognition_model/models/__pycache__/simple_conv_nn.cpython-38.pyc
 sketch_recognition_model/models/__pycache__/SimpleNet.cpython-38.pyc
 sketch_recognition_model/models/__pycache__/VGG8b.cpython-38.pyc
+label.txt
+static/history.json
+static/history
