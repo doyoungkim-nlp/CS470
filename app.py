@@ -358,11 +358,11 @@ def statisticsRight(rightCount):
     print("rightCount : ", rightCount)
     with open('history.txt', 'a') as f: 
         f.write(';' + str(rightCount))
-    return render_template('statistics.html', rightCount = rightCount)
+    return render_template('statistics.html')
 
 @app.route('/statistics')
 def statistics():
-	return render_template('statistics.html', rightCount = -1)
+	return render_template('statistics.html')
 
 if __name__ == '__main__':
     basedir = os.path.abspath(os.path.dirname(__file__))
