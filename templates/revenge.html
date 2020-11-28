@@ -18,15 +18,24 @@
     <body>
         <div class = "container">
             <div style=" text-align: center; margin: 3% auto;">
-                <img  src="static/jumbotron.png"  alt ="classified image"  width="400" height="400" > 
+                <img  src="../static/revenge.png?dummy=8484744"  alt ="classified image"   class="NO-CACHE" width="400" height="400" > 
             </div>
             <main class = "main">
                 <div style="background-color: #ffffff; font-family: colored-crayons-font; font-size: 30px; padding-top: 20px;">
                     <p>What is this?</p>
+                    <p>(Candidates: aaron_sheep, catbus, elephantpig, flamingo, owl)</p>
                     <form action= "result_revenge" method ="GET">
                         <input type = "text" style = "font-size: 30px; font-family: colored-crayons-font; width:280px;" name= "class">
-                        <input type="submit"id="btn"value="predict!">
+                        <input type = "text" style = "width:1px;" name= "real" value="{{modelName}}">
+                        <input type="submit" id="btn" value="predict!">
                     </form>
+                    <script>
+                        var nods = document.getElementsByClassName('NO-CACHE');
+                        for (var i = 0; i < nods.length; i++)
+                        {
+                            nods[i].attributes['src'].value += "?a=" + Math.random();
+                        }
+                    </script>
                 </div>
             </main>
         </div>

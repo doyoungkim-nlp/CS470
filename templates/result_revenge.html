@@ -17,13 +17,13 @@
     <body>
         <div class = "container">
             <div style=" text-align: center; margin: 3% 3% auto;">
-                <img  src="static/jumbotron.png"  alt ="classified image"  width="400" height="400" > 
+                <img  src="../static/revenge.png?dummy=8484744"  alt ="classified image" class="NO-CACHE" width="400" height="400" > 
             </div>
             <main class = "main">
                     <div style="font-family: colored-crayons-font; font-size: 30px; margin-top: 30px; margin-bottom: 10px; padding: 10px;">
                         <div style="background-color: #ffffff; ">
-                            <p>You are wrong!</p>
-                            <p>It is a(an) apple!</p>
+                            <p id="result_text"></p>
+                            <p id="result_text2"></p>
                         </div>             
                     </div>
                 <div style="background-color: #ffffff;">
@@ -36,6 +36,27 @@
                         <input class="btn btn-primary col-md-1" type="button" value="go to start menu" id="btn">
                     </a>
                 </div>
+                <script type="text/javascript">
+                    var query = window.location.search.substring(1);
+                    var Field=query.split("=");
+                    var prediction = Field[1].split('&')[0];
+                    var real = Field[2];
+                    if (real === prediction) {
+                        document.getElementById("result_text").innerHTML = "You are correct!";
+                    } else {
+                        document.getElementById("result_text").innerHTML = "You are wrong!";
+                        document.getElementById("result_text2").innerHTML = "It is a(an) " + real + "!";
+                    }
+                    console.log(Field);
+                    // 
+                </script>
+                <script>
+                    var nods = document.getElementsByClassName('NO-CACHE');
+                    for (var i = 0; i < nods.length; i++)
+                    {
+                        nods[i].attributes['src'].value += "?a=" + Math.random();
+                    }
+                </script>
             </main>
         </div>
     </body>

@@ -53,6 +53,43 @@ from datetime import datetime
 
 
 
+
+# import the required libraries
+import numpy as np ## Downgrade numpy to 1.16.3
+import time
+import random
+#import cPickle
+import codecs
+import collections
+import os
+import math
+import json
+import random
+import tensorflow as tf
+from six.moves import xrange
+import svgwrite
+
+# import matplotlib for plotting
+from matplotlib.pyplot import imshow
+import matplotlib.pyplot as plt
+
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPM
+
+# import Flask
+from flask import Flask
+from flask import render_template, request
+
+from sketch_rnn.sketch_rnn_train import *
+from sketch_rnn.model import *
+from sketch_rnn.utils import *
+from sketch_rnn.rnn import *
+
+from sketch_generation_demo.functions import draw_strokes, make_grid_svg, load_env_compatible, load_model_compatible, encode, decode
+
+
+
+
 # Dictionary with label codes
 label_dict = {0:'cannon',1:'eye', 2:'face', 3:'nail', 4:'pear',
               5:'piano',6:'radio', 7:'spider', 8:'star', 9:'sword'}
@@ -199,6 +236,48 @@ def view_classify(img, preds):
         print("about to write to label.txt")
         f.write('\n' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ';' + label_list[label_1] + ';' + label_list[label_2] + ';' + label_list[label_3])
 
+def main() : 
+    models_root_dir = './sketch_generation_demo/pretrained_model'
+    model_list = ["aaron_sheep/layer_norm", "catbus/lstm", "elephantpig/lstm", "flamingo/lstm", "owl/lstm"]
+    model_name = random.choice(model_list)
+    model_dir = os.path.join(models_root_dir, model_name)
+    base_model_dir = os.path.join(models_root_dir, "aaron_sheep/layer_norm")
+    data_dir = 'http://github.com/hardmaru/sketch-rnn-datasets/raw/master/aaron_sheep/'
+
+    [train_set, valid_set, test_set, hps_model, eval_hps_model, sample_hps_model] = load_env_compatible(data_dir, base_model_dir)
+    [hps_model, eval_hps_model, sample_hps_model] = load_model_compatible(model_dir)
+
+    reset_graph()
+    model = Model(hps_model, tf.compat.v1.disable_eager_execution())
+    eval_model = Model(eval_hps_model, reuse=True)
+    sample_model = Model(sample_hps_model, reuse=True)
+
+    sess = tf.InteractiveSession()
+    sess.run(tf.global_variables_initializer())
+
+    load_checkpoint(sess, model_dir)
+
+    
+    N = 1
+    reconstructions = []
+    for i in range(N):
+        reconstructions.append([decode(sess, sample_model, eval_model, temperature=0.5, draw_mode=False), [0, i]])
+
+    stroke_grid = make_grid_svg(reconstructions)
+    draw_strokes(stroke_grid)
+
+    drawing = svg2rlg("./tmp/svg/sample.svg")
+
+    ts = time.time()
+    filename = "./sketch_generation_demo/tmp/png/test" + str(ts) + ".png"
+    renderPM.drawToFile(drawing, filename, fmt="PNG")
+
+    renderPM.drawToFile(drawing, "./static/revenge.png", fmt="PNG")
+    # label + revenge + time.png
+
+    return model_name.split('/')[0]
+
+
 
 
 app = Flask(__name__)
@@ -207,6 +286,8 @@ app = Flask(__name__)
 model, input_size, output_size = load_model()
 model.eval() # set to evaluation
 
+modelName = ''
+
 @app.route('/')
 def start():
 	return render_template('start.html')
@@ -214,9 +295,11 @@ def start():
 @app.route('/canvas')
 def canvas():
 	return render_template('canvas.html')
+
 @app.route('/gallery')
 def gallery():
 	return render_template('gallery.html')
+
 @app.route('/result_revenge')
 def result_revenge():
 	return render_template('result_revenge.html')
@@ -351,7 +434,7 @@ def pred(dataURL):
 
 @app.route('/revenge')
 def revenge():
-	return render_template('revenge.html')
+    return render_template('revenge.html', modelName=modelName)
 
 @app.route('/statistics/<rightCount>')
 def statisticsRight(rightCount):
@@ -365,6 +448,7 @@ def statistics():
 	return render_template('statistics.html')
 
 if __name__ == '__main__':
+    modelName = main()
     basedir = os.path.abspath(os.path.dirname(__file__))
     dbfile = os.path.join(basedir, 'db.sqlite')
     
