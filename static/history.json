@@ -1,0 +1,46 @@
+{
+    "history": [
+        {
+            "date": "2020-11-28 21:16:29",
+            "category": "sketchmind",
+            "image": "static/history/prediction1606565789.005186.png",
+            "predicted": "nail;sword;pear",
+            "correctness": "wrong!"
+        },
+        {
+            "date": "2020-11-28 21:16:41",
+            "category": "sketchmind",
+            "image": "static/history/prediction1606565801.148961.png",
+            "predicted": "nail;sword;pear",
+            "correctness": "right!"
+        },
+        {
+            "date": "2020-11-28 21:17:28",
+            "category": "sketchmind",
+            "image": "static/history/prediction1606565848.7804077.png",
+            "predicted": "nail;pear;sword",
+            "correctness": "right!"
+        },
+        {
+            "date": "2020-11-28 21:17:47",
+            "category": "sketchmind",
+            "image": "static/history/prediction1606565867.1401887.png",
+            "predicted": "nail;pear;sword",
+            "correctness": "right!"
+        },
+        {
+            "date": "2020-11-28 21:22:26",
+            "category": "sketchmind",
+            "image": "static/history/prediction1606566146.561846.png",
+            "predicted": "nail;pear;sword",
+            "correctness": "right!"
+        },
+        {
+            "date": "2020-11-28 21:45:08",
+            "category": "sketchmind",
+            "image": "static/history/prediction1606567508.3315682.png",
+            "predicted": "pear;nail;sword",
+            "correctness": "right!"
+        }
+    ]
+}

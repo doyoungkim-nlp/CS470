@@ -182,8 +182,9 @@ def view_classify(img, preds):
     plt.tight_layout()
 
     ts = time.time()
-    plt.savefig('history/prediction' + str(ts) + '.png')
 
+    plt.savefig('static/history/prediction' + str(ts) + '.png')
+    plt.savefig('static/prediction.png')
 
 
     label_1 = np.argsort(preds)[-1]
@@ -193,11 +194,31 @@ def view_classify(img, preds):
     label_list = ['cannon','eye', 'face', 'nail', 'pear','piano','radio','spider','star','sword']
 
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), label_1, label_2, label_3)
+    predicted = {
+            "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
+            "category": "sketchmind",
+            "image":'static/history/prediction' + str(ts) + '.png',
+            "predicted": label_list[label_1] + ';' + label_list[label_2] + ';' + label_list[label_3],
+            "correctness": "right!"
+        }
+    import json 
+    
+    
+    # function to add to JSON 
+    def write_json(data, filename='static/history.json'): 
+        with open(filename,'w') as f: 
+            json.dump(data, f, indent=4) 
+        
+        
+    with open('static/history.json') as json_file: 
+        data = json.load(json_file) 
 
-    with open('history.txt', 'a') as f: 
-        print("about to write to label.txt")
-        f.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ';' + label_list[label_1] + ';' + label_list[label_2] + ';' + label_list[label_3] + '\n')
+                
+        temp = data['history'] 
 
+        # appending data to emp_details  
+        temp.append(predicted) 
+    write_json(data)  
 
 
 app = Flask(__name__)
