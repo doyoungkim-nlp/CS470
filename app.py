@@ -220,7 +220,7 @@ def view_classify(img, preds):
 
     ts = time.time()
 
-    plt.savefig('static/history/prediction' + str(ts) + '.png')
+    plt.savefig('history/prediction' + str(ts) + '.png')
     plt.savefig('static/prediction.png')
 
 
