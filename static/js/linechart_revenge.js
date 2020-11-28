@@ -1,19 +1,20 @@
 google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawCurveTypes);
-var linelist = [];
-var right = 0;
-var len = 0;
+var revLinelist = [];
+var revright = 0;
+var revlen = 0;
 $.getJSON('../static/history.json', function(data) {         
   $.each( data.history, function( key, val ){
-    if(val.category=="sketchmind"){
-      if(val.correctness=="right!")
+    console.log(val.category);
+    if(val.category=="revenge"){
+      if(val.correctness=="revright!")
       {
-        right +=1;
+        revright +=1;
       }
-      len +=1;
-      linelist.push([len, right/len]);
-      console.log(len, right);
-      console.log(linelist);
+      revlen +=1;
+      revLinelist.push([revlen, revright/revlen]);
+      console.log(revlen, revright);
+      console.log(revLinelist);
     }
   });
 });
@@ -22,10 +23,10 @@ function drawCurveTypes() {
       var data = new google.visualization.DataTable();
 
       data.addColumn('number', 'X');
-      data.addColumn('number', 'sketchmind');
+      data.addColumn('number', 'revenge');
       
-      data.addRows(linelist);
-      console.log(linelist);
+      data.addRows(revLinelist);
+      console.log(revLinelist);
 
 
       var options = {
@@ -40,6 +41,6 @@ function drawCurveTypes() {
         }
       };
 
-      var chart = new google.visualization.LineChart(document.getElementById('linechart_div'));
+      var chart = new google.visualization.LineChart(document.getElementById('linechart_revenge_div'));
       chart.draw(data, options);
     }

@@ -34,6 +34,13 @@
             "image": "static/history/prediction1606578865.0345979.png",
             "predicted": "pear;nail;sword",
             "correctness": "right!"
+        },
+        {
+            "date": "2020-11-29 01:21:35",
+            "category": "sketchmind",
+            "image": "static/history/prediction1606580495.6012087.png",
+            "predicted": "pear;nail;cannon",
+            "correctness": "right!"
         }
     ]
 }

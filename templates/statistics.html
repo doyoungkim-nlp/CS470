@@ -36,12 +36,12 @@
             </tr><!-- 첫번째 줄 끝 -->
             <tr><!-- 두번째 줄 시작 -->
                 <td>
-                    <!-- <script type="text/javascript"  src="{{url_for('static', filename='js/linechart.js') }}"></script>
-                    <div id = "linechart_div">
-                    </div> -->
+                    <script type="text/javascript"  src="{{url_for('static', filename='js/linechart_revenge.js') }}"></script>
+                    <div id = "linechart_revenge_div">
+                    </div>
                 </td>
                 <td>
-                        <img  src="../static/jumbotron.png"  alt ="classified image"  width="400" height="200" > 
+                        <img  src="../static/revenge.png"  alt ="classified image"  width="200" height="200" > 
                 </td>
             </tr><!-- 두번째 줄 끝 -->
         </table>
@@ -98,7 +98,11 @@
                             for (var j = 0; j < cols.length; j++) { 
                                 var cell = trow.insertCell(-1); 
                                 if( j == 2){
-                                    cell.innerHTML = "<img src=\"" + list[i][cols[j]] + "\" width = '300' height = '150'>";
+                                    console.log(list[i][cols[j-1]]);
+                                    if(list[i][cols[j-1]]=="sketchmind"){
+                                        cell.innerHTML = "<img src=\"" + list[i][cols[j]] + "\" width = '300' height = '150'>";
+                                    }
+                                    else cell.innerHTML = "<img src=\"" + list[i][cols[j]] + "\" width = '150' height = '150'>";
                                 }
                                 // Inserting the cell at particular place 
                                 else cell.innerHTML = list[i][cols[j]]; 
