@@ -183,6 +183,7 @@ def view_classify(img, preds):
 
     ts = time.time()
     plt.savefig('history/prediction' + str(ts) + '.png')
+    plt.savefig('static/prediction' + '.png')
 
 
 
@@ -196,7 +197,7 @@ def view_classify(img, preds):
 
     with open('history.txt', 'a') as f: 
         print("about to write to label.txt")
-        f.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ';' + label_list[label_1] + ';' + label_list[label_2] + ';' + label_list[label_3] + '\n')
+        f.write('\n' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ';' + label_list[label_1] + ';' + label_list[label_2] + ';' + label_list[label_3])
 
 
 
@@ -324,22 +325,44 @@ def pred(dataURL):
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
     graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
 
+
+    preds = preds.squeeze()
+    label_1 = np.argsort(preds)[-1]
+    label_2 = np.argsort(preds)[-2]
+    label_3 = np.argsort(preds)[-3]
+
+    label_list = ['cannon','eye', 'face', 'nail', 'pear','piano','radio','spider','star','sword']
+
+    label_str_1 = label_list[label_1]
+    label_str_2 = label_list[label_2]
+    label_str_3 = label_list[label_3]
+
     # render the hook.html passing prediction resuls
     return render_template(
         'result.html',
         result = label_num, # predicted class label
         ids=ids, # plotly graph ids
         graphJSON=graphJSON, # json plotly graphs
-        dataURL = dataURL # image to display with result
+        dataURL = dataURL, # image to display with result
+        label_str_1 = label_str_1,
+        label_str_2 = label_str_2,
+        label_str_3 = label_str_3
     )
 
 @app.route('/revenge')
 def revenge():
 	return render_template('revenge.html')
 
+@app.route('/statistics/<rightCount>')
+def statisticsRight(rightCount):
+    print("rightCount : ", rightCount)
+    with open('history.txt', 'a') as f: 
+        f.write(';' + str(rightCount))
+    return render_template('statistics.html', rightCount = rightCount)
+
 @app.route('/statistics')
 def statistics():
-	return render_template('statistics.html')
+	return render_template('statistics.html', rightCount = -1)
 
 if __name__ == '__main__':
     basedir = os.path.abspath(os.path.dirname(__file__))
