@@ -219,9 +219,9 @@ def view_classify(img, preds):
     plt.tight_layout()
 
     ts = time.time()
-    plt.savefig('history/prediction' + str(ts) + '.png')
-    plt.savefig('static/prediction' + '.png')
 
+    plt.savefig('static/history/prediction' + str(ts) + '.png')
+    plt.savefig('static/prediction.png')
 
 
     label_1 = np.argsort(preds)[-1]
@@ -231,10 +231,30 @@ def view_classify(img, preds):
     label_list = ['cannon','eye', 'face', 'nail', 'pear','piano','radio','spider','star','sword']
 
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), label_1, label_2, label_3)
+    predicted = {
+            "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
+            "category": "sketchmind",
+            "image":'static/history/prediction' + str(ts) + '.png',
+            "predicted": label_list[label_1] + ';' + label_list[label_2] + ';' + label_list[label_3],
+            "correctness": "right!"
+        }
+    import json 
+    
+    
+    # function to add to JSON 
+    def write_json(data, filename='static/history.json'): 
+        with open(filename,'w') as f: 
+            json.dump(data, f, indent=4) 
+        
+        
+    with open('static/history.json') as json_file: 
+        data = json.load(json_file) 
 
-    with open('history.txt', 'a') as f: 
-        print("about to write to label.txt")
-        f.write('\n' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ';' + label_list[label_1] + ';' + label_list[label_2] + ';' + label_list[label_3])
+                
+        temp = data['history'] 
+        # appending data to emp_details  
+        temp.append(predicted) 
+    write_json(data)  
 
 def main() : 
     models_root_dir = './sketch_generation_demo/pretrained_model'
@@ -276,6 +296,7 @@ def main() :
     # label + revenge + time.png
 
     return model_name.split('/')[0]
+
 
 
 
@@ -435,13 +456,6 @@ def pred(dataURL):
 @app.route('/revenge')
 def revenge():
     return render_template('revenge.html', modelName=modelName)
-
-@app.route('/statistics/<rightCount>')
-def statisticsRight(rightCount):
-    print("rightCount : ", rightCount)
-    with open('history.txt', 'a') as f: 
-        f.write(';' + str(rightCount))
-    return render_template('statistics.html')
 
 @app.route('/statistics')
 def statistics():

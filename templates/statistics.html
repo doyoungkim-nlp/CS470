@@ -11,6 +11,7 @@
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel = "stylesheet" href="{{ url_for('static', filename='css/statistics.css') }}">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 
 <body>
@@ -35,12 +36,12 @@
             </tr><!-- 첫번째 줄 끝 -->
             <tr><!-- 두번째 줄 시작 -->
                 <td>
-                    <script type="text/javascript"  src="{{url_for('static', filename='js/linechart.js') }}"></script>
-                    <div id = "linechart_div">
+                    <script type="text/javascript"  src="{{url_for('static', filename='js/linechart_revenge.js') }}"></script>
+                    <div id = "linechart_revenge_div">
                     </div>
                 </td>
                 <td>
-                        <img  src="../static/jumbotron.png"  alt ="classified image"  width="400" height="200" > 
+                        <img  src="../static/revenge.png"  alt ="classified image"  width="200" height="200" > 
                 </td>
             </tr><!-- 두번째 줄 끝 -->
         </table>
@@ -48,95 +49,72 @@
         <div>
             <div class="helper"></div>
             <div class = "item_1 item" style="overflow:auto; width: 800px; height: 200px;">
-                <table >
-                    <th>attempt history</th>
-                    <th>date</th>
-                    <th>category</th>
-                    <th>image</th>
-                    <th>predicted</th>
-                    <th>right or wrong?</th>
-                    <tr>
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            2020.11.27.15:08:11
-                        </td>
-                        <td>
-                            revenge of AI
-                        </td>
-                        <td>
-                            <img  src="../static/jumbotron.png"  alt ="classified image"  width="50" height="50" > 
-                        </td>
-                        <td>
-                            apple
-                        </td>
-                        <td>
-                            right!
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            2
-                        </td>
-                        <td>
-                            2020.11.26.13:12:23
-                        </td>
-                        <td>
-                            sketchmind
-                        </td>
-                        <td>
-                            <img  src="../static/jumbotron.png"  alt ="classified image"  width="50" height="50" > 
-                        </td>
-                        <td>
-                            airplane, book, toothpaste
-                        </td>
-                        <td>
-                            wrong!
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            3
-                        </td>
-                        <td>
-                            2020.11.22.22:00:10
-                        </td>
-                        <td>
-                            revenge of AI
-                        </td>
-                        <td>
-                            <img  src="../static/jumbotron.png"  alt ="classified image"  width="50" height="50" > 
-                        </td>
-                        <td>
-                            knife
-                        </td>
-                        <td>
-                            right!
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            4
-                        </td>
-                        <td>
-                            2020.11.22.22:00:03
-                        </td>
-                        <td>
-                            revenge of AI
-                        </td>
-                        <td>
-                            <img  src="../static/jumbotron.png"  alt ="classified image"  width="50" height="50" > 
-                        </td>
-                        <td>
-                            cat
-                        </td>
-                        <td>
-                            wrong!
-                        </td>
-                    </tr>
-                </table>
-    
+	
+                <table id="table" align = "center" border="1px"></table> 
+	
+                <script> 
+                    var list = [];
+                    $.getJSON('../static/history.json', function(data) {         
+                        $.each( data.history, function( key, val ){
+                            list.push( val );
+                            console.log(val);
+                        });
+                    });
+
+                    window.onload=function() { 
+                        var cols = []; 
+                        
+                        for (var i = 0; i < list.length; i++) { 
+                            for (var k in list[i]) { 
+                                if (cols.indexOf(k) === -1) { 
+                                    
+                                    // Push all keys to the array 
+                                    cols.push(k); 
+                                } 
+                            } 
+                        } 
+                        
+                        // Create a table element 
+                        var table = document.createElement("table"); 
+                        
+                        // Create table row tr element of a table 
+                        var tr = table.insertRow(-1); 
+                        
+                        for (var i = 0; i < cols.length; i++) { 
+                            
+                            // Create the table header th element 
+                            var theader = document.createElement("th"); 
+                            theader.innerHTML = cols[i]; 
+                            
+                            // Append columnName to the table row 
+                            tr.appendChild(theader); 
+                        } 
+                        
+                        // Adding the data to the table 
+                        for (var i = 0; i < list.length; i++) { 
+                            
+                            // Create a new row 
+                            trow = table.insertRow(-1); 
+                            for (var j = 0; j < cols.length; j++) { 
+                                var cell = trow.insertCell(-1); 
+                                if( j == 2){
+                                    console.log(list[i][cols[j-1]]);
+                                    if(list[i][cols[j-1]]=="sketchmind"){
+                                        cell.innerHTML = "<img src=\"" + list[i][cols[j]] + "\" width = '300' height = '150'>";
+                                    }
+                                    else cell.innerHTML = "<img src=\"" + list[i][cols[j]] + "\" width = '150' height = '150'>";
+                                }
+                                // Inserting the cell at particular place 
+                                else cell.innerHTML = list[i][cols[j]]; 
+                            } 
+                        } 
+                        
+                        // Add the newely created table containing json data 
+                        var el = document.getElementById("table"); 
+                        el.innerHTML = ""; 
+                        el.appendChild(table); 
+                    }	 
+                </script> 
             </div>
             <div class = "item_2 item" style=" font-size: 30px; width: 380px; height: 200px;">
                 <a href = "./">
@@ -156,8 +134,6 @@
                 </div>             
             </div>
         </div>
-       
-        
     </main>
 </body>
 </html>
