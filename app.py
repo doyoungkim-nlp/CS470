@@ -293,7 +293,33 @@ def main() :
     renderPM.drawToFile(drawing, filename, fmt="PNG")
 
     renderPM.drawToFile(drawing, "./static/revenge.png", fmt="PNG")
+    renderPM.drawToFile(drawing, "./static/history/revenge"+str(ts)+".png", fmt="PNG")
     # label + revenge + time.png
+    print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    predicted = {
+            "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
+            "category": "revenge",
+            "image":'static/history/revenge' + str(ts) + '.png',
+            "predicted": "apple",
+            "correctness": "right!"
+        }
+    import json 
+    
+    
+    # function to add to JSON 
+    def write_json(data, filename='static/history.json'): 
+        with open(filename,'w') as f: 
+            json.dump(data, f, indent=4) 
+        
+        
+    with open('static/history.json') as json_file: 
+        data = json.load(json_file) 
+
+                
+        temp = data['history'] 
+        # appending data to emp_details  
+        temp.append(predicted) 
+    write_json(data) 
 
     return model_name.split('/')[0]
 

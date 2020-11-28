@@ -1,5 +1,5 @@
 google.charts.load('current', {packages: ['corechart', 'line']});
-google.charts.setOnLoadCallback(drawCurveTypes);
+google.charts.setOnLoadCallback(revdrawCurveTypes);
 var revLinelist = [];
 var revright = 0;
 var revlen = 0;
@@ -7,7 +7,7 @@ $.getJSON('../static/history.json', function(data) {
   $.each( data.history, function( key, val ){
     console.log(val.category);
     if(val.category=="revenge"){
-      if(val.correctness=="revright!")
+      if(val.correctness=="right!")
       {
         revright +=1;
       }
@@ -18,7 +18,7 @@ $.getJSON('../static/history.json', function(data) {
     }
   });
 });
-function drawCurveTypes() {
+function revdrawCurveTypes() {
 
       var data = new google.visualization.DataTable();
 
