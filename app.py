@@ -257,10 +257,10 @@ def view_classify(img, preds):
 
 def main() : 
     models_root_dir = './sketch_generation_demo/pretrained_model'
-    model_list = ["aaron_sheep/layer_norm", "catbus/lstm", "elephantpig/lstm", "flamingo/lstm", "owl/lstm"]
+    model_list = ["sheep/layer_norm", "catbus/lstm", "elephantpig/lstm", "flamingo/lstm", "owl/lstm"]
     model_name = random.choice(model_list)
     model_dir = os.path.join(models_root_dir, model_name)
-    base_model_dir = os.path.join(models_root_dir, "aaron_sheep/layer_norm")
+    base_model_dir = os.path.join(models_root_dir, "sheep/layer_norm")
     data_dir = 'http://github.com/hardmaru/sketch-rnn-datasets/raw/master/aaron_sheep/'
 
     [train_set, valid_set, test_set, hps_model, eval_hps_model, sample_hps_model] = load_env_compatible(data_dir, base_model_dir)
