@@ -6,6 +6,7 @@ This is the fall semester 2020 final project of our team for CS470, KAIST.
 You might have heard of classic online game called [catchmind](http://cmind.netmarble.net/main.asp). It is a multi-player game which a player takes trun to draw the hidden subject, 
 while others try to guess what the subject is.
 ![Alt text](/static/catchmind.jpg)
+
 One of the main problem of this game is that it needs multiple people to play. If there is only one player, then the game is meaningless.
 
 We thought that it would be nice if we solve this by using some deep learning techniques. More precisely, we wanted a game that single player can enjoy with most of the functions which 
@@ -27,7 +28,7 @@ in your 'flask' directory, and after terminal shows this message,
 you can locally connect to http://127.0.0.1:5000/ to run the project.
 
 
-![Alt text](/static/startpage.png)
+![Alt text](/static/startpage.PNG)
 If you go to the link, ss you see, there are 4 tabs in the start page.
 The first tab is a tab which you can click and draw whatever you think, and let the AI predict what it might be.
 
@@ -65,7 +66,7 @@ directory(overwrite history.json file).
 
 The project will automatically move to statistics.html, which is shown as below:
 
-<img src="./static/statistics.jpg" alt="statistics" width="40%"/>
+<img src="./static/statistics.JPG" alt="statistics" width="40%"/>
 
 As you see, the upper box consists of two columns, one is the graph of the accuracy of of AI, which divides the right prediction by the total attempts you played.
 
