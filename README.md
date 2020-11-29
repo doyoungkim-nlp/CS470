@@ -17,11 +17,21 @@ So here is a brief description of what we made:
 
 We made a small flask-based project with some python, javascript which runs locally in your computer.
 
-You can enter
+Before running the project, go to  environment.yaml file and uncomment prefix.
+
+Then, rewrite the path as your conda environmnet folder.
+
+Now, type 
+
+    conda env create --file environment.yaml
+
+in your root directory of this project(This will make a conda virtual environment of this project).
+
+Now you can enter
 
     python app.py
     
-in your 'flask' directory, and after terminal shows this message, 
+in the same directory, and after terminal shows this message, 
 
     * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 
