@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # import the required libraries
 import numpy as np ## Downgrade numpy to 1.16.3
 import time
@@ -144,7 +143,7 @@ def decode(sess, sample_model, eval_model, z_input=None, draw_mode=True, tempera
     draw_strokes(strokes, factor)
   return strokes
 
-=======
+
 # import the required libraries
 import numpy as np ## Downgrade numpy to 1.16.3
 import time
@@ -289,5 +288,3 @@ def decode(sess, sample_model, eval_model, z_input=None, draw_mode=True, tempera
   if draw_mode:
     draw_strokes(strokes, factor)
   return strokes
-
->>>>>>> a54892b917781b8da026abb9e95a2c7b332c1dce

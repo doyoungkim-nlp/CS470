@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # import the required libraries
 import numpy as np ## Downgrade numpy to 1.16.3
 import time
@@ -70,7 +69,7 @@ def main() :
 
 if __name__ == '__main__':
     main()
-=======
+
 # import the required libraries
 import numpy as np ## Downgrade numpy to 1.16.3
 import time
@@ -142,4 +141,3 @@ def main() :
 
 if __name__ == '__main__':
     main()
->>>>>>> a54892b917781b8da026abb9e95a2c7b332c1dce
