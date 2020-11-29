@@ -84,12 +84,12 @@ If you click the second tab, then there is a generated drawing within the candid
     
 
 
-<img src="./static/prediction_revenge.jpg" alt="predict" width="40%"/>
+<img src="./static/prediction_revenge.JPG" alt="predict" width="40%"/>
 
 
 I think it is a flamingo, so type flamingo and click the predict! button.
 
-<img src="./static/result_revenge.jpg" alt="result" width="40%"/>
+<img src="./static/result_revenge.JPG" alt="result" width="40%"/>
 
 It says that I am wrong! now, it will automatically download a modified history.json file. Place it in
 
