@@ -1,5 +1,4 @@
 import os
-from models import db
 
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
@@ -289,11 +288,15 @@ def main() :
     drawing = svg2rlg("./tmp/svg/sample.svg")
 
     ts = time.time()
-    filename = "./sketch_generation_demo/tmp/png/test" + str(ts) + ".png"
-    renderPM.drawToFile(drawing, filename, fmt="PNG")
+    # filename = "./sketch_generation_demo/tmp/png/test" + str(ts) + ".png"
+    # renderPM.drawToFile(drawing, filename, fmt="PNG")
 
-    renderPM.drawToFile(drawing, "./static/revenge.png", fmt="PNG")
     renderPM.drawToFile(drawing, "./static/history/revenge"+str(ts)+".png", fmt="PNG")
+    import shutil
+
+    original = "./static/history/revenge"+str(ts)+".png"
+    target = "./static/revenge.png"
+    shutil.copyfile(original, target)
     # label + revenge + time.png
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     predicted = {
@@ -481,23 +484,11 @@ def pred(dataURL):
 
 @app.route('/revenge')
 def revenge():
-    return render_template('revenge.html', modelName=modelName)
+    return render_template('revenge.html', modelName=main())
 
 @app.route('/statistics')
 def statistics():
 	return render_template('statistics.html')
 
 if __name__ == '__main__':
-    modelName = main()
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    dbfile = os.path.join(basedir, 'db.sqlite')
-    
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile 
-    app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True 
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
-    
-    db.init_app(app) # app 설정값들을 초기화한다.
-    db.app = app # models.py에서 db를 가져와서 db.app에 app을 명시적으로 넣어준다.
-    db.create_all()
-    
     app.run(host='127.0.0.1', port=5000, debug=True)

@@ -190,24 +190,59 @@
             "correctness": "wrong!"
         },
         {
-            "date": "2020-11-29 17:08:15",
+            "date": "2020-11-29 18:50:34",
             "category": "revenge",
-            "image": "static/history/revenge1606637295.5051482.png",
+            "image": "static/history/revenge1606643434.9407766.png",
             "predicted": "apple",
             "correctness": "right!"
         },
         {
-            "date": "2020-11-29 17:08:51",
+            "date": "2020-11-29 18:50:50",
             "category": "revenge",
-            "image": "static/history/revenge1606637331.2761657.png",
+            "image": "static/history/revenge1606643450.2987258.png",
+            "predicted": "owl",
+            "correctness": "wrong!"
+        },
+        {
+            "date": "2020-11-29 19:05:33",
+            "category": "revenge",
+            "image": "static/history/revenge1606644333.115085.png",
             "predicted": "apple",
             "correctness": "right!"
         },
         {
-            "date": "2020-11-29 17:09:08",
+            "date": "2020-11-29 19:06:14",
             "category": "revenge",
-            "image": "static/history/revenge1606637348.2493026.png",
+            "image": "static/history/revenge1606644374.3857827.png",
             "predicted": "apple",
+            "correctness": "right!"
+        },
+        {
+            "date": "2020-11-29 19:07:10",
+            "category": "revenge",
+            "image": "static/history/revenge1606644430.502775.png",
+            "predicted": "apple",
+            "correctness": "right!"
+        },
+        {
+            "date": "2020-11-29 19:07:28",
+            "category": "revenge",
+            "image": "static/history/revenge1606644448.9508638.png",
+            "predicted": "apple",
+            "correctness": "right!"
+        },
+        {
+            "date": "2020-11-29 19:07:59",
+            "category": "sketchmind",
+            "image": "static/history/prediction1606644479.2947721.png",
+            "predicted": "aaron_sheep",
+            "correctness": "wrong!"
+        },
+        {
+            "date": "2020-11-29 19:28:52",
+            "category": "sketchmind",
+            "image": "static/history/prediction1606645732.684953.png",
+            "predicted": "pear;nail;face",
             "correctness": "right!"
         }
     ]

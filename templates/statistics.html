@@ -25,23 +25,23 @@
             
             <tr><!-- 첫번째 줄 시작 -->
                 <td>
-                    <script type="text/javascript"  src="{{url_for('static', filename='js/linechart.js') }}"></script>
+                    <script type="text/javascript"   class="NO-CACHE" src="{{url_for('static', filename='js/linechart.js') }}"></script>
                     <div id = "linechart_div">
                     </div>
                 </td>
                 <td>
-                    <img  src="../static/prediction.png"  alt ="classified image"  width="400" height="200" >
+                    <img  src="../static/prediction.png"  alt ="classified image" class="NO-CACHE" width="400" height="200" >
                 </td>
 
             </tr><!-- 첫번째 줄 끝 -->
             <tr><!-- 두번째 줄 시작 -->
                 <td>
-                    <script type="text/javascript"  src="{{url_for('static', filename='js/linechart_revenge.js') }}"></script>
+                    <script type="text/javascript"   class="NO-CACHE" src="{{url_for('static', filename='js/linechart_revenge.js') }}"></script>
                     <div id = "linechart_revenge_div">
                     </div>
                 </td>
                 <td>
-                        <img  src="../static/revenge.png"  alt ="classified image"  width="200" height="200" > 
+                        <img  src="../static/revenge.png"  alt ="classified image" class="NO-CACHE" width="200" height="200" > 
                 </td>
             </tr><!-- 두번째 줄 끝 -->
         </table>
@@ -134,6 +134,13 @@
                 </div>             
             </div>
         </div>
+        <script>
+            var nods = document.getElementsByClassName('NO-CACHE');
+            for (var i = 0; i < nods.length; i++)
+            {
+                nods[i].attributes['src'].value += "?a=" + Math.random();
+            }
+        </script>
     </main>
 </body>
 </html>
