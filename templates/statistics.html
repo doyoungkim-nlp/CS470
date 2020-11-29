@@ -6,12 +6,141 @@
     <title>Statistics</title>
     <style>
         body{
-            background-image:url('static/start.jpg')
+            background-image:url('../static/start.jpg')
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel = "stylesheet" href="{{ url_for('static', filename='css/statistics.css') }}">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 
 <body>
-    
+
+    <main class = "main" style = "font-family: colored-crayons-font;">
+        <table style = "border: 1px solid black; background-color: #ffffff; margin-top: 3%;">
+            <th style = "width: 500px">overall statistics</th>
+            <th style = "width: 700px">your last attempt</th>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+            
+            <tr><!-- 첫번째 줄 시작 -->
+                <td>
+                    <script type="text/javascript"   class="NO-CACHE" src="{{url_for('static', filename='js/linechart.js') }}"></script>
+                    <div id = "linechart_div">
+                    </div>
+                </td>
+                <td>
+                    <img  src="../static/prediction.png"  alt ="classified image" class="NO-CACHE" width="400" height="200" >
+                </td>
+
+            </tr><!-- 첫번째 줄 끝 -->
+            <tr><!-- 두번째 줄 시작 -->
+                <td>
+                    <script type="text/javascript"   class="NO-CACHE" src="{{url_for('static', filename='js/linechart_revenge.js') }}"></script>
+                    <div id = "linechart_revenge_div">
+                    </div>
+                </td>
+                <td>
+                        <img  src="../static/revenge.png"  alt ="classified image" class="NO-CACHE" width="200" height="200" > 
+                </td>
+            </tr><!-- 두번째 줄 끝 -->
+        </table>
+
+        <div>
+            <div class="helper"></div>
+            <div class = "item_1 item" style="overflow:auto; width: 800px; height: 200px;">
+	
+                <table id="table" align = "center" border="1px"></table> 
+	
+                <script> 
+                    var list = [];
+                    $.getJSON('../static/history.json', function(data) {         
+                        $.each( data.history, function( key, val ){
+                            list.push( val );
+                            console.log(val);
+                        });
+                    });
+
+                    window.onload=function() { 
+                        var cols = []; 
+                        
+                        for (var i = 0; i < list.length; i++) { 
+                            for (var k in list[i]) { 
+                                if (cols.indexOf(k) === -1) { 
+                                    
+                                    // Push all keys to the array 
+                                    cols.push(k); 
+                                } 
+                            } 
+                        } 
+                        
+                        // Create a table element 
+                        var table = document.createElement("table"); 
+                        
+                        // Create table row tr element of a table 
+                        var tr = table.insertRow(-1); 
+                        
+                        for (var i = 0; i < cols.length; i++) { 
+                            
+                            // Create the table header th element 
+                            var theader = document.createElement("th"); 
+                            theader.innerHTML = cols[i]; 
+                            
+                            // Append columnName to the table row 
+                            tr.appendChild(theader); 
+                        } 
+                        
+                        // Adding the data to the table 
+                        for (var i = 0; i < list.length; i++) { 
+                            
+                            // Create a new row 
+                            trow = table.insertRow(-1); 
+                            for (var j = 0; j < cols.length; j++) { 
+                                var cell = trow.insertCell(-1); 
+                                if( j == 2){
+                                    console.log(list[i][cols[j-1]]);
+                                    if(list[i][cols[j-1]]=="sketchmind"){
+                                        cell.innerHTML = "<img src=\"" + list[i][cols[j]] + "\" width = '300' height = '150'>";
+                                    }
+                                    else cell.innerHTML = "<img src=\"" + list[i][cols[j]] + "\" width = '150' height = '150'>";
+                                }
+                                // Inserting the cell at particular place 
+                                else cell.innerHTML = list[i][cols[j]]; 
+                            } 
+                        } 
+                        
+                        // Add the newely created table containing json data 
+                        var el = document.getElementById("table"); 
+                        el.innerHTML = ""; 
+                        el.appendChild(table); 
+                    }	 
+                </script> 
+            </div>
+            <div class = "item_2 item" style=" font-size: 30px; width: 380px; height: 200px;">
+                <a href = "./">
+                    <input class="btn btn-primary col-md-1" type="button" value="go to start menu" id="btn">
+                </a>
+                <a href = gallery>
+                    <input class="btn btn-primary col-md-1" type="button" value="go to gallery" id="btn">
+                </a>
+                <div >
+                    <p>want to contribute?</p>
+                    <i>
+                        <a href="https://github.com/ikevin98/CS470" class="fa fa-github" style="font-size:30px; color:black"></a>
+                    </i>   
+                    <i>
+                        <a href="https://quickdraw.withgoogle.com/#" class="fa fa-google" style="font-size:30px; color: red"></a>
+                    </i>   
+                </div>             
+            </div>
+        </div>
+        <script>
+            var nods = document.getElementsByClassName('NO-CACHE');
+            for (var i = 0; i < nods.length; i++)
+            {
+                nods[i].attributes['src'].value += "?a=" + Math.random();
+            }
+        </script>
+    </main>
 </body>
 </html>

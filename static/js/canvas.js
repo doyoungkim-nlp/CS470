@@ -36,7 +36,7 @@ saveBtn.addEventListener('click', handleSave)
 
 function drawLine(context, x1, y1, x2, y2) {
   context.beginPath();
-  context.strokeStyle = 'white';
+  context.strokeStyle = 'black';
   context.lineWidth = 1;
   context.moveTo(x1, y1);
   context.lineTo(x2, y2);
@@ -44,22 +44,47 @@ function drawLine(context, x1, y1, x2, y2) {
   context.closePath();
 }
 
+
 function handleSave() {
   const image = canvas.toDataURL("image/jpeg", 1.0);
-/*   const link = document.createElement("a")
-  link.href = image;
-  link.download = "Paint"
-  link.click() */
+  var currentdate = new Date(); 
+
+  var year    = currentdate.getFullYear();
+  var month   = currentdate.getMonth() + 1; 
+  var date    = currentdate.getDate();
+  var hour    = currentdate.getHours();
+  var minute  = currentdate.getMinutes();
+  var second  = currentdate.getSeconds(); 
+
+  if(month.toString().length == 1) {
+      month = '0' + month;
+  }
+  if(date.toString().length == 1) {
+      date = '0' + date;
+  }   
+  if(hour.toString().length == 1) {
+      hour = '0' + hour;
+  }
+  if(minute.toString().length == 1) {
+      minute = '0' + minute;
+  }
+  if(second.toString().length == 1) {
+      second = '0' + second;
+  }   
+
+  var dateTime = year + "." + month  + "." 
+                  + date + "." + hour + ":"  
+                  + minute + ":" + second;
 
 console.log("about to send")
   $.ajax({
     type: "POST",
-    url: "http://url/hook",
+    url: "http://127.0.0.1:5000/result",
     data:{
+      dateTime : dateTime,
       imageBase64: image
     }
   }).done(function() {
     console.log('sent');
-  
   });
 }

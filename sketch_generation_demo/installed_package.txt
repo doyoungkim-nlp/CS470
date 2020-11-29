@@ -1,0 +1,4 @@
+pip3 install tensor2tensor
+pip3 install svglib
+pip3 install -qU svgwrite
+pip3 install tensorflow

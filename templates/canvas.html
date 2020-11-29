@@ -16,27 +16,35 @@
     <body>
         <div class = "container">
             <div style=" text-align: center; margin: 3% auto;">
-                <canvas id ="canvas" width="400" height="400" style="background: black">
+                <canvas id ="canvas" width="400" height="400" style="background: white">
     
                 </canvas>
             </div>
             <main class = "main">
-                <div>
-                    <a href = "result">
-                        <input class="btn btn-primary col-md-1" type="button" value="predict" id="btn">
-                    </a>
-                    
+                <div style="background-color: #ffffff;">
+                        <input class="btn btn-primary col-md-1" type="button" value="predict" id="btn" onclick = "save()">
                 </div>
+                <script>
+                    function save() {
+                        var dataURL = canvas.toDataURL();
+                        // get base64 string from dataUrl
+                        dataURL = dataURL.split(",")[1];
+                        //  replace base64 characters '+/=' with '._-'
+                        while (dataURL.indexOf('+') > 0) {
+                            dataURL  = dataURL.replace('+', '.');
+                        }
+                        while (dataURL.indexOf('/') > 0) {
+                            dataURL  = dataURL.replace('/', '_');
+                        }
+                        while (dataURL.indexOf('=') > 0) {
+                            dataURL  = dataURL.replace('=', '-');
+                        }
+
+                        window.location.href = '/go/' + dataURL;
+                        }
+                </script>
                 <script src="{{url_for('static', filename='js/canvas.js') }}"></script>
             </main>
-
-            <form action = "http://localhost:5000/fileUpload" method = "POST"
-                enctype = "multipart/form-data">
-                <input type = "file" name = "file" />
-                <input type = "submit"/>
-            </form>
         </div>
-
-
     </body>
 </html>

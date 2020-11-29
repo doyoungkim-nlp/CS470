@@ -1,14 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on May  10 2019
-
-@author: Aleksandra Deis
-
-Script which runs flask web application for Quick Draw
-
-"""
 #import libraries
+
 import numpy as np
 from PIL import Image
 import base64
@@ -47,11 +38,12 @@ from torch import optim
 import torch.nn.functional as F
 from torchvision import datasets, transforms
 
-
 from models.simple_conv_nn import SimpleCNN
 from models.RMDL import RMDL
 from models.SimpleNet import SimpleNet_v1
 from models.VGG8b import vgg8b
+
+
 
 
 # Dictionary with label codes
@@ -159,7 +151,7 @@ def get_prediction(model, input):
 
     return label, label_name, preds
 
-def view_classify(img, preds):
+def view_classify(original, img, preds):
     """
     Function for viewing an image and it's predicted classes
     with matplotlib.
@@ -171,7 +163,8 @@ def view_classify(img, preds):
     preds = preds.squeeze()
 
     fig, (ax1, ax2) = plt.subplots(figsize=(6,9), ncols=2)
-    ax1.imshow(img.squeeze())
+    #ax1.imshow(img.squeeze())
+    ax1.imshow(original)
     ax1.axis('off')
     ax2.barh(np.arange(10), preds)
     ax2.set_aspect(0.1)
@@ -185,7 +178,7 @@ def view_classify(img, preds):
     ts = time.time()
     plt.savefig('prediction' + str(ts) + '.png')
 
-app = Flask(__name__)
+app = Flask(__name__) 
 
 # load model
 model, input_size, output_size = load_model()
@@ -219,10 +212,10 @@ def pred(dataURL):
 
     # save original image as png (for debugging)
     ts = time.time()
-    #img.save('image' + str(ts) + '.png', 'PNG')
+    img.save('image' + str(ts) + '.png', 'PNG')
 
     # convert image to RGBA
-    img = img.convert("RGBA")
+    #img = img.convert("RGBA")
 
     # preprocess the image for the model
     image_cropped = crop_image(img) # crop the image and resize to 28x28
@@ -239,7 +232,7 @@ def pred(dataURL):
     print("This is a {}".format(label_num))
 
     # save classification results as a diagram
-    view_classify(image_np, preds)
+    view_classify(img, image_np, preds)
 
     # create plotly visualization
     graphs = [

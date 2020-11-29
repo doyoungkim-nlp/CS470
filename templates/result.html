@@ -7,47 +7,110 @@
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- Plotly-->
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
         <style type="text/css">
             canvas{border: 1px solid black}
             body{
-                background-image:url('static/start.jpg')
+                background-image:url('../static/start.jpg')
             }
         </style>
     </head>
     <body>
         <div class = "container">
-            <div style=" text-align: center; margin: 3% auto;">
-                <img  src="static/jumbotron.png"  alt ="classified image"  width="400" height="400" > 
+            <div style=" text-align: center; margin: 3% 3% auto;">
+                <div class="row">
+                    <div class ="col-1">
+                    </div>
+                    <div class ="col-1">
+                    </div>
+                    <div class ="col-5">
+                        <img id="canvasimg" style="display:none;">
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    // render drawn image
+                    dataUrl = "data:image/png;base64," + '{{dataURL}}'
+                    document.getElementById("canvasimg").style.border = "2px solid";
+                    document.getElementById("canvasimg").style.background = "white";
+                    document.getElementById("canvasimg").src = dataUrl;
+                    document.getElementById("canvasimg").style.display = "inline";
+                </script> 
                 <div style="font-family: colored-crayons-font; font-size: 30px;">
                     <div>
-                        Is it a(an) apple?
+                        <p id="label_text">Is this a {{label_str_1}}?</p>
                     </div>
                     <div >
-                        <input class="btn btn-primary col-md-1" type="button" value="no" id="smlbtn_no" onclick="save()">
-                        <input class="btn btn-primary col-md-1" type="button" value="yes" id="smlbtn_yes" onclick="save()">
-                    </div>                    
+                        <input class="btn btn-primary col-md-1" type="button" value="no" id="smlbtn_no" onclick="changeText(this.value)">
+                        <a href = "../statistics">
+                            <input class="btn btn-primary col-md-1" type="button" value="yes" id="smlbtn_yes">
+                        </a>
+
+
+                    </div>
+                    <script type="text/javascript">
+                        var clicks = 0;
+                        var list = [];
+                                    $.getJSON('../static/history.json', function(data) {         
+                                        $.each( data.history, function( key, val ){
+                                            list.push( val );
+                                            console.log(val);
+                                        });
+                                    });
+                        function changeText(value) {
+                            if (value === "no") {
+                                clicks += 1;
+                                if (clicks === 1) {
+                                    document.getElementById('label_text').innerHTML = "Is this a {{label_str_2}}?";
+                                } else if (clicks === 2) {
+                                    document.getElementById('label_text').innerHTML = "Is this a {{label_str_3}}?";
+                                } else {
+                                    console.log(list);
+                                    console.log(list.length);
+                                    console.log(list[list.length-1]);
+                                    console.log(list[list.length-1].correctness)
+                                    list[list.length-1].correctness = "wrong!"
+                                    var obj = new Object();
+                                    obj.history = list
+                                    var obj_s = JSON.stringify(obj);
+                                    function download(filename, text) {
+                                        var element = document.createElement('a');
+                                        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                                        element.setAttribute('download', filename);
+
+                                        element.style.display = 'none';
+                                        document.body.appendChild(element);
+
+                                        element.click();
+
+                                        document.body.removeChild(element);
+                                        }
+
+                                        // Start file download.
+                                    download("history.json",obj_s);
+                                    window.location.href = '../statistics';
+                                }
+                                
+                            }
+                            
+                        }
+                    </script>
                 </div> 
             </div>
             <main class = "main">
-                <div>
-                    <a href = statistics>
+                <div style="background-color: #ffffff;">
+                    <a href = "../statistics">
                         <input class="btn btn-primary col-md-1" type="button" value="go to statistics" id="btn">
                     </a>
                 </div>
-                <div>
-                    <a href = "./">
+                <div style="background-color: #ffffff;">
+                    <a href = "../">
                         <input class="btn btn-primary col-md-1" type="button" value="go to start menu" id="btn">
                     </a>
                 </div>
             </main>
 
-            <form action = "http://localhost:5000/fileUpload" method = "POST"
-                enctype = "multipart/form-data">
-                <input type = "file" name = "file" />
-                <input type = "submit"/>
-            </form>
         </div>
-
-
     </body>
 </html>

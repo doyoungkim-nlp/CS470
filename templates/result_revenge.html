@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <meta charset='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
+        <title>Result_revenge</title>
+        <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <style type="text/css">
+            canvas{border: 1px solid black}
+            body{
+                background-image:url('static/start.jpg')
+            }
+        </style>
+    </head>
+    <body>
+        <div class = "container">
+            <div style=" text-align: center; margin: 3% 3% auto;">
+                <img  src="../static/revenge.png?dummy=8484744"  alt ="classified image" class="NO-CACHE" width="400" height="400" > 
+            </div>
+            <main class = "main">
+                    <div style="font-family: colored-crayons-font; font-size: 30px; margin-top: 30px; margin-bottom: 10px; padding: 10px;">
+                        <div style="background-color: #ffffff; ">
+                            <p id="result_text"></p>
+                            <p id="result_text2"></p>
+                        </div>             
+                    </div>
+                <div style="background-color: #ffffff;">
+                    <a href = statistics>
+                        <input class="btn btn-primary col-md-1" type="button" value="go to statistics" id="btn">
+                    </a>
+                </div>
+                <div style="background-color: #ffffff;">
+                    <a href = "./">
+                        <input class="btn btn-primary col-md-1" type="button" value="go to start menu" id="btn">
+                    </a>
+                </div>
+                <script type="text/javascript">
+                    var list = [];
+                    $.getJSON('../static/history.json', function(data) {         
+                        $.each( data.history, function( key, val ){
+                            list.push( val );
+                            console.log(val);
+                        });
+                    });
+                    var query = window.location.search.substring(1);
+                    var Field=query.split("=");
+                    var prediction = Field[1].split('&')[0];
+                    var real = Field[2];
+
+
+                        // Start file download.
+                    window.onload=function(){
+                        if (real === prediction) {
+                            document.getElementById("result_text").innerHTML = "You are correct!";
+                            console.log(list[list.length-1].predicted)
+                            list[list.length-1].predicted = prediction
+                            var obj = new Object();
+                            obj.history = list
+                            var obj_s = JSON.stringify(obj);
+                        } 
+                        else {
+                            document.getElementById("result_text").innerHTML = "You are wrong!";
+                            document.getElementById("result_text2").innerHTML = "It is a(an) " + real + "!";
+                            console.log(list[list.length-1].predicted)
+                            list[list.length-1].predicted = prediction
+                            list[list.length-1].correctness = "wrong!";
+                            var obj = new Object();
+                            obj.history = list
+                            var obj_s = JSON.stringify(obj);
+                        }
+                        function download(filename, text) {
+                            var element = document.createElement('a');
+                            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                            element.setAttribute('download', filename);
+
+                            element.style.display = 'none';
+                            document.body.appendChild(element);
+
+                            element.click();
+
+                            document.body.removeChild(element);
+                        }
+                        download("history.json",obj_s);                    
+                        console.log(Field);
+                    }
+
+                    // 
+                </script>
+                <script>
+                    var nods = document.getElementsByClassName('NO-CACHE');
+                    for (var i = 0; i < nods.length; i++)
+                    {
+                        nods[i].attributes['src'].value += "?a=" + Math.random();
+                    }
+                </script>
+            </main>
+        </div>
+    </body>
+</html>
