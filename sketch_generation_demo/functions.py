@@ -288,3 +288,4 @@ def decode(sess, sample_model, eval_model, z_input=None, draw_mode=True, tempera
   if draw_mode:
     draw_strokes(strokes, factor)
   return strokes
+
