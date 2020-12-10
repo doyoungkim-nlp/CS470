@@ -110,4 +110,3 @@ directory(overwrite history.json file).
 Now press "Go to statistics" button, and you will see the same html file we saw at the first demo.
 
 Since you played the second tab, only the second tab will be updated.
-## Problem
