@@ -257,7 +257,7 @@ def view_classify(img, preds):
 
 def main() : 
     models_root_dir = './sketch_generation_demo/pretrained_model'
-    model_list = ["sheep/layer_norm", "catbus/lstm", "elephantpig/lstm", "flamingo/lstm", "owl/lstm"]
+    model_list = ["sheep/layer_norm", "flamingo/lstm", "owl/lstm"]
     model_name = random.choice(model_list)
     model_dir = os.path.join(models_root_dir, model_name)
     base_model_dir = os.path.join(models_root_dir, "sheep/layer_norm")
