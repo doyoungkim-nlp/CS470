@@ -257,14 +257,19 @@ def view_classify(img, preds):
 
 def main() : 
     models_root_dir = './sketch_generation_demo/pretrained_model'
-    model_list = ["sheep/layer_norm", "flamingo/lstm", "owl/lstm"]
+    #model_list = ["sheep/layer_norm", "flamingo/lstm_uncond", "owl/lstm"]
+    model_list = ["sheep/lstm", "flamingo/lstm_uncond", "owl/lstm"]
     model_name = random.choice(model_list)
     model_dir = os.path.join(models_root_dir, model_name)
-    base_model_dir = os.path.join(models_root_dir, "sheep/layer_norm")
+    #base_model_dir = os.path.join(models_root_dir, "sheep/layer_norm")
+    base_model_dir = os.path.join(models_root_dir, "sheep/lstm")
     data_dir = 'http://github.com/hardmaru/sketch-rnn-datasets/raw/master/aaron_sheep/'
 
-    [train_set, valid_set, test_set, hps_model, eval_hps_model, sample_hps_model] = load_env_compatible(data_dir, base_model_dir)
-    [hps_model, eval_hps_model, sample_hps_model] = load_model_compatible(model_dir)
+    if model_name == "sheep/layer_norm" or model_name == "sheep/lstm": 
+        [train_set, valid_set, test_set, hps_model, eval_hps_model, sample_hps_model] = load_env_compatible(data_dir, base_model_dir)
+    
+    else : 
+        [hps_model, eval_hps_model, sample_hps_model] = load_model_compatible(model_dir)
 
     reset_graph()
     model = Model(hps_model, tf.compat.v1.disable_eager_execution())

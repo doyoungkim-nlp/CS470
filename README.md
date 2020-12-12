@@ -23,7 +23,9 @@ Then, rewrite the path as your conda environmnet folder.
 
 Now, type 
 
-    conda env create --file environment.yaml
+    conda update -n base conda
+    conda env create --file environment.yml
+    conda activate sketchmind_team11
 
 in your root directory of this project(This will make a conda virtual environment of this project).
 
@@ -72,7 +74,8 @@ However, if you click "no" 3 times, then it will recognize it as a wrong predict
 
     ./static/
 
-directory(overwrite history.json file). 
+directory(Overwrite history.json file!).
+Then update the statistics with <pre><code>ctrl + shift + r</code></pre> or <pre><code>ctrl + F5 </code></pre>
 
 The project will automatically move to statistics.html, which is shown as below:
 
@@ -90,7 +93,7 @@ Since you played the first tab, only the first tab will be updated.
 
 If you click the second tab, then there is a generated drawing within the candidates below: 
 
-    ["aaron_sheep", "catbus", "elephantpig", "flamingo", "owl"]
+    ["aaron_sheep", "flamingo", "owl"]
     
 
 
@@ -105,7 +108,8 @@ It says that I am wrong! now, it will automatically download a modified history.
 
     ./static/
 
-directory(overwrite history.json file). 
+directory(Overwrite history.json file!).
+Then same as sketchmind, update the statistics with <pre><code>ctrl + shift + r</code></pre> or <pre><code>ctrl + F5 </code></pre>
 
 Now press "Go to statistics" button, and you will see the same html file we saw at the first demo.
 
