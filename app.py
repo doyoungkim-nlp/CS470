@@ -94,16 +94,6 @@ label_dict = {0:'cannon',1:'eye', 2:'face', 3:'nail', 4:'pear',
               5:'piano',6:'radio', 7:'spider', 8:'star', 9:'sword'}
 
 def load_model(filepath = 'sketch_recognition_model/checkpoints/checkpoint_simpleNet.pth'):
-    """
-    Function loads the model from checkpoint.
-
-    INPUT:
-        filepath - path for the saved model
-
-    OUTPUT:
-        model - loaded pytorch model
-    """
-
     print("Loading model from {} \n".format(filepath))
 
     checkpoint = torch.load(filepath)
@@ -156,17 +146,6 @@ def load_model(filepath = 'sketch_recognition_model/checkpoints/checkpoint_simpl
     return model, input_size, output_size
 
 def get_prediction(model, input):
-    """
-    Function to get prediction (label of class with the greatest probability).
-
-    INPUT:
-        model - pytorch model
-        input - (numpy) input vector
-
-    OUTPUT:
-        label - predicted class label
-        label_name - name of predicted class
-    """
     # Convert input to tensor
     input = torch.from_numpy(input).float()
     input = input.resize(1, 784)
@@ -195,14 +174,6 @@ def get_prediction(model, input):
     return label, label_name, preds
 
 def view_classify(img, preds):
-    """
-    Function for viewing an image and it's predicted classes
-    with matplotlib.
-
-    INPUT:
-        img - (numpy) image file
-        preds - (numpy) predicted probabilities for each class
-    """
     preds = preds.squeeze()
 
     fig, (ax1, ax2) = plt.subplots(figsize=(6,3), ncols=2)
