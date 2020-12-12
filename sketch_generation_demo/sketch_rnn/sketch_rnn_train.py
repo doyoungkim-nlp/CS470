@@ -19,6 +19,7 @@ import json
 import os
 import time
 import zipfile
+from functools import partial
 """
 from magenta.models.sketch_rnn import model as sketch_rnn_model
 from magenta.models.sketch_rnn import utils
@@ -117,7 +118,16 @@ def load_dataset(data_dir, model_params, inference_mode=False):
   # applies same scaling factor to valid and test set.
 
   # save np.load
-  np_load_old = np.load
+  #np_load_old = np.load
+
+  # modify the default parameters of np.load
+  #np.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
+
+  import numpy as np
+  
+
+  # save np.load
+  np_load_old = partial(np.load)
 
   # modify the default parameters of np.load
   np.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
@@ -154,6 +164,9 @@ def load_dataset(data_dir, model_params, inference_mode=False):
       train_strokes = np.concatenate((train_strokes, data['train']))
       valid_strokes = np.concatenate((valid_strokes, data['valid']))
       test_strokes = np.concatenate((test_strokes, data['test']))
+
+  # for recursicve np.load change
+  np.load = np_load_old
 
   all_strokes = np.concatenate((train_strokes, valid_strokes, test_strokes))
   num_points = 0

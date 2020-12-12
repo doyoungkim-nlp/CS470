@@ -15,4 +15,5 @@
 # Lint as: python3
 """Replacement for `tf.contrib.training`."""
 
-from tensor2tensor.utils.hparam import HParams  # pylint:disable=unused-import
+#from tensor2tensor.tensor2tensor.utils.hparam import HParams  # pylint:disable=unused-import
+from .hparam import HParams
