@@ -79,10 +79,10 @@ from reportlab.graphics import renderPM
 from flask import Flask
 from flask import render_template, request
 
-from sketch_rnn.sketch_rnn_train import *
-from sketch_rnn.model import *
-from sketch_rnn.utils import *
-from sketch_rnn.rnn import *
+from sketch_generation_demo.sketch_rnn.sketch_rnn_train import *
+from sketch_generation_demo.sketch_rnn.model import *
+from sketch_generation_demo.sketch_rnn.utils import *
+from sketch_generation_demo.sketch_rnn.rnn import *
 
 from sketch_generation_demo.functions import draw_strokes, make_grid_svg, load_env_compatible, load_model_compatible, encode, decode
 
@@ -257,7 +257,7 @@ def view_classify(img, preds):
 
 def main() : 
     models_root_dir = './sketch_generation_demo/pretrained_model'
-    model_list = ["sheep/layer_norm", "catbus/lstm", "elephantpig/lstm", "flamingo/lstm", "owl/lstm"]
+    model_list = ["sheep/layer_norm", "flamingo/lstm", "owl/lstm"]
     model_name = random.choice(model_list)
     model_dir = os.path.join(models_root_dir, model_name)
     base_model_dir = os.path.join(models_root_dir, "sheep/layer_norm")

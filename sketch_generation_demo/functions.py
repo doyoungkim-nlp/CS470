@@ -15,10 +15,10 @@ import svgwrite
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPM
 
-from sketch_rnn.sketch_rnn_train import *
-from sketch_rnn.model import *
-from sketch_rnn.utils import *
-from sketch_rnn.rnn import *
+from .sketch_rnn.sketch_rnn_train import *
+from .sketch_rnn.model import *
+from .sketch_rnn.utils import *
+from .sketch_rnn.rnn import *
 
 def draw_strokes(data, factor=0.2, svg_filename = './tmp/svg/sample.svg'):
   tf.gfile.MakeDirs(os.path.dirname(svg_filename))
