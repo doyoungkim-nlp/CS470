@@ -79,10 +79,10 @@ from reportlab.graphics import renderPM
 from flask import Flask
 from flask import render_template, request
 
-from sketch_rnn.sketch_rnn_train import *
-from sketch_rnn.model import *
-from sketch_rnn.utils import *
-from sketch_rnn.rnn import *
+from sketch_generation_demo.sketch_rnn.sketch_rnn_train import *
+from sketch_generation_demo.sketch_rnn.model import *
+from sketch_generation_demo.sketch_rnn.utils import *
+from sketch_generation_demo.sketch_rnn.rnn import *
 
 from sketch_generation_demo.functions import draw_strokes, make_grid_svg, load_env_compatible, load_model_compatible, encode, decode
 
