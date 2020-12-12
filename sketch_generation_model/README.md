@@ -1,15 +1,5 @@
 # Sketch-RNN (with PyTorch)
 
-The goal of this repositority is to provide an accurate and efficient PyTorch implementation of the [Sketch-RNN model](https://arxiv.org/abs/1704.03477) from Ha & Eck (2017). 
-The [official implementation](https://github.com/tensorflow/magenta/blob/master/magenta/models/sketch_rnn/README.md) is written in TensorFlow, provided through the magenta library.
-
-## Existing pytorch repo
-
-There is an [existing PyTorch implementation](https://github.com/alexis-jacq/Pytorch-Sketch-RNN) of Sketch-RNN provided by Alexis Jacq. However, Jacq's model deviates from the original in a few important ways. The goal here is to fix these discrepancies for better reproducibility. The important ingredients are as follows:
-1. __Parameter initialization__. The intialization of weights & biases is important, especially for recurrent LSTM weights, which use a special form of orthogonal initialization.
-2. __Recurrent dropout__. Jacq's implementation does not use dropout of any kind (`dropout=p` is passed to `nn.LSTM`, but this has no effect for a single-layer lstm). Here, this model take care to implement the recurrent dropout technique from Sketch-RNN.
-3. __Layer normalization__. This model's custom LSTM cells implement layer normalization exactly as per the official repo. Jacq's implementation does not include layer norm.
-4. __HyperLSTM__. This model has also implemented the HyperLSTM model used for the Sketch-RNN decoder.
 
 ## Development notes
 The provided code runs, however, there are a few "to-do" items to correctly match the official implementation:
