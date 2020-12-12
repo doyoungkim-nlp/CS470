@@ -6,9 +6,6 @@
 /*/*/__pycache__
 /*/*/*/__pycache__
 /env
-sketch_recognition_model/__pycache__/image_utils.cpython-38.pyc
-sketch_recognition_model/models/__pycache__/RMDL.cpython-38.pyc
-sketch_recognition_model/models/__pycache__/simple_conv_nn.cpython-38.pyc
-sketch_recognition_model/models/__pycache__/SimpleNet.cpython-38.pyc
-sketch_recognition_model/models/__pycache__/VGG8b.cpython-38.pyc
+sketch_recognition_model/__pycache__
+sketch_recognition_model/models/__pycache__
 label.txt

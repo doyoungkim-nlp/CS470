@@ -6,7 +6,6 @@ from werkzeug.datastructures import  FileStorage
 import cv2
 
 from sketch_recognition_model.models.simple_conv_nn import SimpleCNN
-from sketch_recognition_model.models.RMDL import RMDL
 from sketch_recognition_model.models.SimpleNet import SimpleNet_v1
 from sketch_recognition_model.models.VGG8b import vgg8b
 
@@ -49,9 +48,6 @@ from torchvision import datasets, transforms
 
 
 from datetime import datetime
-
-
-
 
 # import the required libraries
 import numpy as np ## Downgrade numpy to 1.16.3
@@ -131,15 +127,9 @@ def load_model(filepath = 'sketch_recognition_model/checkpoints/checkpoint_simpl
     model = SimpleNet_v1(output_size)
     model.load_state_dict(checkpoint['state_dict'])
     
-
-    """
-    # 4. RMDL
-    model = RMDL(output_size)
-    model.load_state_dict(checkpoint['state_dict'])
-    """
     
     """
-    # 5. VGG8b
+    # 4. VGG8b
     model = vgg8b()
     model.load_state_dict(checkpoint['state_dict'])
     """
@@ -156,7 +146,7 @@ def get_prediction(model, input):
         # 1. nn
         logits = model.forward(input)
         """
-        # 2. conv, simpleNet, RMDL, VGG8b
+        # 2. conv, simpleNet, VGG8b
         image = input.numpy()
         image = image.reshape(image.shape[0], 1, 28, 28)
         logits = model.forward(torch.from_numpy(image).float())

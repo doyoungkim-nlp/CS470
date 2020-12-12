@@ -20,10 +20,7 @@ import os
 import time
 import zipfile
 from functools import partial
-"""
-from magenta.models.sketch_rnn import model as sketch_rnn_model
-from magenta.models.sketch_rnn import utils
-"""
+
 from . import model as sketch_rnn_model
 from . import utils
 import numpy as np

@@ -20,6 +20,14 @@ from .sketch_rnn.model import *
 from .sketch_rnn.utils import *
 from .sketch_rnn.rnn import *
 
+"""
+# for run.py in sketch_recognition_demo directory
+from sketch_rnn.sketch_rnn_train import *
+from sketch_rnn.model import *
+from sketch_rnn.utils import *
+from sketch_rnn.rnn import *
+"""
+
 def draw_strokes(data, factor=0.2, svg_filename = './tmp/svg/sample.svg'):
   tf.gfile.MakeDirs(os.path.dirname(svg_filename))
   min_x, max_x, min_y, max_y = get_bounds(data, factor)
