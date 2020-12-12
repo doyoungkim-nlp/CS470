@@ -34,26 +34,12 @@ import image_utils
 from image_utils import add_flipped_and_rotated_images
 
 from models.simple_conv_nn import SimpleCNN
-from models.RMDL import RMDL
 from models.SimpleNet import SimpleNet_v1
 from models.VGG8b import vgg8b
 
 from fitting_function import fit_conv, fit_model, fit_other
 
 def load_data():
-    """
-    Function loads quick draw dataset. If no data is loaded yet, the datasets
-    are loaded from the web. If there are already loaded datasets, then data
-    is loaded from the disk (pickle files).
-
-    INPUTS: None
-
-    OUTPUT:
-        X_train - train dataset
-        y_train - train dataset labels
-        X_test - test dataset
-        y_test - test dataset labels
-    """
     print("Loading data \n")
 
     # Check for already loaded datasets
@@ -121,18 +107,6 @@ def load_data():
     return X_train, y_train, X_test, y_test
 
 def save_data(X_train, y_train, X_test, y_test, force = False):
-    """
-    The function saves datasets to disk as pickle files.
-
-    INPUT:
-        X_train - train dataset
-        y_train - train dataset labels
-        X_test - test dataset
-        y_test - test dataset labels
-        force - forced saving of the files
-
-    OUTPUT: None
-    """
     print("Saving data \n")
 
     # Check for already saved files
@@ -154,17 +128,6 @@ def save_data(X_train, y_train, X_test, y_test, force = False):
             pickle.dump(y_test, f)
 
 def build_model(input_size, output_size, hidden_sizes, architecture = 'nn', dropout = 0.0):
-    '''
-    Function creates deep learning model based on parameters passed.
-
-    INPUT:
-        1. architecture - model architecture
-            'nn' - for feed-forward neural network with 1 hidden layer
-        2. dropout - dropout (probability of keeping a node)
-
-    OUTPUT:
-        model - deep learning model
-    '''
     if (architecture == 'nn'):
         # Build a feed-forward network
         model = nn.Sequential(OrderedDict([
@@ -185,28 +148,12 @@ def build_model(input_size, output_size, hidden_sizes, architecture = 'nn', drop
             model = SimpleCNN(64, output_size)
         elif (architecture == 'simpleNet') : 
             model = SimpleNet_v1(output_size)
-        elif (architecture == 'RMDL') : 
-            model = RMDL(output_size, min_hidden_layer=3, max_hidden_layer=10, min_nodes=128, max_nodes=512, dropout=0.05)
         elif (architecture == 'vgg8b') : 
             model = vgg8b()
 
     return model
 
-
-
-
-
-
-
 def view_classify(img, ps):
-    """
-    Function for viewing an image and it's predicted classes
-    with matplotlib.
-
-    INPUT:
-        img - (tensor) image file
-        ps - (tensor) predicted probabilities for each class
-    """
     ps = ps.data.numpy().squeeze()
 
     fig, (ax1, ax2) = plt.subplots(figsize=(6,9), ncols=2)
@@ -225,23 +172,6 @@ def view_classify(img, ps):
     plt.savefig('prediction' + str(ts) + '.png')
 
 def save_model(model, architecture, input_size, output_size, hidden_sizes, dropout, filepath = 'checkpoint.pth'):
-    """
-    Functions saves model checkpoint.
-
-    INPUT:
-        model - pytorch model
-        architecture - model architecture ('nn' - for fully connected neural network, 'conv' - for convolutional neural
-        network)
-        input_size - size of the input layer
-        output_size - size of the output layer
-        hidden_sizes - list of the hidden layer sizes
-        dropout - dropout probability for hidden layers
-        filepath - path for the model to be saved to
-
-    OUTPUT: None
-    """
-
-    print("Saving model to {}\n".format(filepath))
     if architecture == 'nn':
         checkpoint = {'input_size': input_size,
                   'output_size': output_size,
@@ -251,26 +181,21 @@ def save_model(model, architecture, input_size, output_size, hidden_sizes, dropo
 
         torch.save(checkpoint, filepath)
     else:
+        if architecture == 'conv' : 
+            filepath = 'checkpoint_conv.pth'
+        elif architecture == "simpleNet" : 
+            filepath = "checkpoint_simpleNet.pth"
+        elif architecture == "vgg8b" : 
+            filepath = "checkpoint_vgg8b.pth"
         checkpoint = {'input_size': input_size,
                   'output_size': output_size,
                   'hidden_layers': hidden_sizes,
                   'dropout': dropout,
                   'state_dict': model.state_dict()}
         torch.save(checkpoint, filepath)
+    print("Saving model to {}\n".format(filepath))
 
 def load_model(architecture = 'nn', filepath = 'checkpoint.pth'):
-    """
-    Function loads the model from checkpoint.
-
-    INPUT:
-        architecture - model architecture ('nn' - for fully connected neural network, 'conv' - for convolutional neural
-        network)
-        filepath - path for the saved model
-
-    OUTPUT:
-        model - loaded pytorch model
-    """
-
     print("Loading model from {} \n".format(filepath))
 
     if architecture == 'nn':
@@ -293,18 +218,17 @@ def load_model(architecture = 'nn', filepath = 'checkpoint.pth'):
         model.load_state_dict(checkpoint['state_dict'])
 
     elif architecture == 'SimpleCNN':
+        filepath = "checkpoint_conv.pth"
         checkpoint = torch.load(filepath)
         model = SimpleCNN()
         model.load_state_dict(checkpoint['state_dict'])
     elif architecture == 'SimpleNet_v1':
+        filepath = "checkpoint_simpleNet.pth"
         checkpoint = torch.load(filepath)
         model = SimpleNet_v1(output_size)
         model.load_state_dict(checkpoint['state_dict'])
-    elif architecture == 'RMDL':
-        checkpoint = torch.load(filepath)
-        model = RMDL(output_size)
-        model.load_state_dict(checkpoint['state_dict'])
     elif architecture == 'vgg8b':
+        filepath = "checkpoint_vgg8b.pth"
         checkpoint = torch.load(filepath)
         model = vgg8b()
         model.load_state_dict(checkpoint['state_dict'])
@@ -312,16 +236,6 @@ def load_model(architecture = 'nn', filepath = 'checkpoint.pth'):
     return model
 
 def test_model(model, img, architecture = 'nn'):
-    """
-    Function creates test view of the model's prediction for image.
-
-    INPUT:
-        model - pytorch model
-        img - (tensor) image from the dataset
-
-    OUTPUT: None
-    """
-
     # Convert 2D image to 1D vector
     img = img.resize_(1, 784)
 
@@ -329,43 +243,20 @@ def test_model(model, img, architecture = 'nn'):
     view_classify(img.resize_(1, 28, 28), ps)
 
 def get_preds(model, input, architecture = 'nn'):
-    """
-    Function to get predicted probabilities from the model for each class.
-
-    INPUT:
-        model - pytorch model
-        input - (tensor) input vector
-
-    OUTPUT:
-        ps - (tensor) vector of predictions
-    """
-
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # Turn off gradients to speed up this part
     with torch.no_grad():
         if architecture == 'nn':
             logits = model.forward(input)
-        elif architecture == 'SimpleCNN':
-            image = input.numpy()
-            image = image.reshape(image.shape[0], 1, 28, 28)
-            logits = model.forward(torch.from_numpy(image).float().to(device))
         else : 
             image = input.numpy()
             image = image.reshape(image.shape[0], 1, 28, 28)
             logits = model.forward(torch.from_numpy(image).float().to(device))
+            #logits = model.forward(torch.from_numpy(image).float().to("cpu"))
     ps = F.softmax(logits, dim=1)
     return ps
 
 def get_labels(pred):
-    """
-        Function to get the vector of predicted labels for the images in
-        the dataset.
-
-        INPUT:
-            pred - (tensor) vector of predictions (probabilities for each class)
-        OUTPUT:
-            pred_labels - (numpy) array of predicted classes for each vector
-    """
-
     pred_np = pred.numpy()
     pred_values = np.amax(pred_np, axis=1, keepdims=True)
     pred_labels = np.array([np.where(pred_np[i, :] == pred_values[i, :])[0] for i in range(pred_np.shape[0])])
@@ -373,21 +264,9 @@ def get_labels(pred):
 
     return pred_labels
 
+
+## evaluate_model can cause GPU memory out => Test dataset should be small enough
 def evaluate_model(model, train, y_train, test, y_test, architecture = 'nn'):
-    """
-    Function to print out train and test accuracy of the model.
-
-    INPUT:
-        model - pytorch model
-        train - (tensor) train dataset
-        y_train - (numpy) labels for train dataset
-        test - (tensor) test dataset
-        y_test - (numpy) labels for test dataset
-
-    OUTPUT:
-        accuracy_train - accuracy on train dataset
-        accuracy_test - accuracy on test dataset
-    """
     train_pred = get_preds(model, train, architecture)
     train_pred_labels = get_labels(train_pred)
 
@@ -402,31 +281,14 @@ def evaluate_model(model, train, y_train, test, y_test, architecture = 'nn'):
 
     return accuracy_train, accuracy_test
 
-def plot_learning_curve(input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, learning_rate = 0.003, weight_decay = 0.0, dropout = 0.0, n_chunks = 1000, optimizer = 'SGD'):
-    """
-    Function to plot learning curve depending on the number of epochs.
 
-    INPUT:
-        input_size, output_size, hidden_sizes - model parameters
-        train - (tensor) train dataset
-        labels - (tensor) labels for train dataset
-        y_train - (numpy) labels for train dataset
-        test - (tensor) test dataset
-        y_test - (numpy) labels for test dataset
-        learning_rate - learning rate hyperparameter
-        weight_decay - weight decay (regularization)
-        dropout - dropout for hidden layer
-        n_chunks - the number of minibatches to train the model
-        optimizer - optimizer to be used for training (SGD or Adam)
-
-    OUTPUT: None
-    """
+def plot_learning_curve(model, input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, architecture = "nn", learning_rate = 0.003, weight_decay = 0.0, dropout = 0.0, n_chunks = 1000, optimizer = 'SGD'):
     train_acc = []
     test_acc = []
 
-    for epochs in np.arange(10, 210, 10):
+    for epochs in np.arange(5, 30, 5):
         # create model
-        model = build_model(input_size, output_size, hidden_sizes, dropout = dropout)
+        #model = build_model(input_size, output_size, hidden_sizes, dropout = dropout)
 
         # fit model
         fit_model(model, train, labels, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
@@ -436,10 +298,9 @@ def plot_learning_curve(input_size, output_size, hidden_sizes, train, labels, y_
         train_acc.append(accuracy_train)
         test_acc.append(accuracy_test)
 
-
     #return train_acc, test_acc
     
-    
+    """
     # Plot curve
     x = np.arange(10, 210, 10)
     plt.plot(x, train_acc)
@@ -450,62 +311,43 @@ def plot_learning_curve(input_size, output_size, hidden_sizes, train, labels, y_
     plt.ylabel('Accuracy', fontsize=14)
 
     ts = time.time()
-    plt.savefig('learning_curve' + str(ts) + '.png')
-
+    plt.savefig('learning_curve' + str(ts) + "_" + architecture + '.png')
+    """
+    ts = time.time()
+    dir_path = os.path.join("/content/drive/My Drive/CS470/Final/quick-draw-image-recognition-master/model",architecture)
     df = pd.DataFrame.from_dict({'train' : train_acc, 'test' :test_acc})
-    df.to_csv('learning_curve_' + str(ts) + '.csv')
+    file_path = 'learning_curve_' + str(ts) + "_" + architecture + '.csv'
+    df.to_csv(os.path.join(dir_path, file_path))
 
-def plot_learning_curve_conv(input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, architecture="nn", learning_rate = 0.003, weight_decay = 0.0, dropout = 0.0, n_chunks = 1000, optimizer = 'SGD'):
-    """
-    Function to plot learning curve depending on the number of epochs.
 
-    INPUT:
-        input_size, output_size, hidden_sizes - model parameters
-        train - (tensor) train dataset
-        labels - (tensor) labels for train dataset
-        y_train - (numpy) labels for train dataset
-        test - (tensor) test dataset
-        y_test - (numpy) labels for test dataset
-        learning_rate - learning rate hyperparameter
-        weight_decay - weight decay (regularization)
-        dropout - dropout for hidden layer
-        n_chunks - the number of minibatches to train the model
-        optimizer - optimizer to be used for training (SGD or Adam)
 
-    OUTPUT: None
-    """
+def plot_learning_curve_conv(model, input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, architecture="conv", learning_rate = 0.003, weight_decay = 0.0, dropout = 0.0, n_chunks = 1000, optimizer = 'SGD'):
     train_acc = []
     test_acc = []
 
-    for epochs in np.arange(2, 12, 2):
+    for epochs in np.arange(2, 10, 2):
         print("epoch : ", epochs)
         # create model
         model = build_model(input_size, output_size, hidden_sizes, architecture=architecture, dropout = dropout)
         print("model build complete")
 
         # fit model
-        if architecture == "SimpleCNN" : 
+        #fit_conv(model, train, labels, test, y_test, architecture, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = "SGD")
+        if architecture == "conv" : 
           fit_conv(model, train, labels, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = "SGD")
         else : 
-          fit_other(model, train, labels, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = "SGD")
+          fit_other(model, train, labels, test, y_test, architecture, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
 
         # get accuracy
         accuracy_train, accuracy_test = evaluate_model(model, train, y_train, test, y_test, architecture=architecture)
 
-        model_name = str(epochs) + ".pth"
-        dir_path = os.path.join("/content/drive/My Drive/CS470/Final/model",architecture)
-
-        if not os.path.isdir(dir_path):                                                           
-            os.mkdir(dir_path)
-        save_path = os.path.join(dir_path, model_name)
-        save_model(model, architecture, input_size, output_size, hidden_sizes, dropout, filepath = save_path)
-
+        print("accuracy_train type : ", type(accuracy_train))
         train_acc.append(accuracy_train)
         test_acc.append(accuracy_test)
 
     #return train_acc, test_acc
 
-
+    """
     # Plot curve
     x = np.arange(2, 12, 2)
     plt.plot(x, train_acc)
@@ -514,49 +356,59 @@ def plot_learning_curve_conv(input_size, output_size, hidden_sizes, train, label
     plt.title('Accuracy, learning_rate = ' + str(learning_rate), fontsize=20)
     plt.xlabel('Number of epochs', fontsize=14)
     plt.ylabel('Accuracy', fontsize=14)
-
     ts = time.time()
-    plt.savefig('learning_curve' + str(ts) + '.png')
-
+    plt.savefig('learning_curve' + str(ts) + "_" + architecture + '.png')
+    """
+    ts = time.time()
     df = pd.DataFrame.from_dict({'train' : train_acc, 'test' :test_acc})
-    df.to_csv('learning_curve_' + str(ts) + '.csv')
+    df.to_csv('learning_curve_' + str(ts) + "_" + architecture + '.csv')
 
-def compare_hyperparameters(input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, learning_rate, architecture = 'nn', n_chunks = 1000, optimizer = 'SGD'):
+
+def compare_hyperparameters(input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, learning_rate, architecture = 'nn', n_chunks = 1000, optimizer = 'SGD', dropout=0.0, weight_decay=0.0):
     """
     Function which evaluates the accyracy of the model on set of hyperparameters dropout and weight_decay.
     """
     # define hyperparameters grid
-    weight_decays = [0.0]
-    dropouts = [0.0, 0.3, 0.5]
+    #weight_decays = [0.0, 0.5, 1.0, 2.0]
+    #dropouts = [0.0]
+    #optimizers = ["SGD", "ADAM"]
+    learning_rates = [0.001, 0.003, 0.005]
+    #learning_rates = [0.003]
 
-    epochs = np.arange(10, 110, 10)
+    epochs = np.arange(2, 21, 2)
 
     results = {}
     params = []
+    dir_path = os.path.join("/content/drive/MyDrive/CS470/Final/quick-draw-image-recognition-master/model",architecture)
 
     # train and evaluate models with different hyperparameters
-    for weight_decay in weight_decays:
-        for dropout in dropouts:
+    for learning_rate in learning_rates:
 
-            test_acc = []
-            train_acc = []
+        test_acc = []
+        train_acc = []
 
-            for e in epochs:
-                model = build_model(input_size, output_size, hidden_sizes, architecture = architecture, dropout = dropout)
-                fit_model(model, train, labels, epochs = e, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
+        for e in epochs:
+            model = build_model(input_size, output_size, hidden_sizes, architecture = architecture, dropout = dropout)
+            
+            if architecture == 'nn' : 
+                fit_model(model, train, labels, test, y_test, architecture, epochs = e, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
+            elif architecture == 'conv' : 
+                fit_conv(model, train, labels, test, y_test, architecture, epochs = e, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
+            else : 
+                fit_other(model, train, labels, test, y_test, architecture, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
+            accuracy_train, accuracy_test = evaluate_model(model, train, y_train, test, y_test)
 
-                accuracy_train, accuracy_test = evaluate_model(model, train, y_train, test, y_test)
+            train_acc.append(accuracy_train)
+            test_acc.append(accuracy_test)
 
-                train_acc.append(accuracy_train)
-                test_acc.append(accuracy_test)
+        results['test lr: ' + str(learning_rate)] = test_acc
+        results['train lr: ' + str(learning_rate)] = train_acc
+        params.append('lr: ' + str(learning_rate))
 
-            results['test weight_decay: ' + str(weight_decay) + ', dropout: ' + str(dropout)] = test_acc
-            results['train weight_decay: ' + str(weight_decay) + ', dropout: ' + str(dropout)] = train_acc
-            params.append('weight_decay: ' + str(weight_decay) + ', dropout: ' + str(dropout))
-
-            # save intermediate results
-            df = pd.DataFrame.from_dict(results)
-            df.to_csv('comparison.csv')
+        # save intermediate results
+        df = pd.DataFrame.from_dict(results)
+        filename = "comparison_loss_function_NLLLoss" + ".csv"
+        df.to_csv(os.path.join(dir_path, filename))
 
     print(results)
 
@@ -564,23 +416,8 @@ def compare_hyperparameters(input_size, output_size, hidden_sizes, train, labels
 
     # save results as csv
     df = pd.DataFrame.from_dict(results)
-    df.to_csv('comparison_' + str(ts) + '.csv')
-
-
-def create_heatmap_for_each_class(X_train, y_train):
-    """
-    Function creates heatmaps for images for each class in the training dataset.
-    INPUT:
-        X_train - (numpy array) training dataset
-        y_train - (numpy array) labels for the training dataset
-
-    OUTPUT: None
-    """
-    label_dict = {0:'cannon',1:'eye', 2:'face', 3:'nail', 4:'pear',
-                  5:'piano',6:'radio', 7:'spider', 8:'star', 9:'sword'}
-
-    for i in range(0, 10):
-        view_label_heatmap(X_train, y_train, i, label_dict[i])
+    filename = 'comparison_' + str(ts) + "_lr_" + str(learning_rate)+ '.csv'
+    df.to_csv(filename)
 
 
 def main():
@@ -604,7 +441,7 @@ def main():
 
     parser.add_argument('--architecture', action='store', default = 'nn',
                         help='Model architecture: nn - feed forward neural network with 1 hidden layer.',
-                        choices = ['nn', 'conv', 'simpleNet', 'RMDL','vgg8b'])
+                        choices = ['nn', 'conv', 'simpleNet', 'vgg8b'])
 
     parser.add_argument('--add_data', action='store_true',
                         help='Add flipped and rotated images to the original training set.')
@@ -633,10 +470,13 @@ def main():
     else:
         device = 'cpu'
 
+    """
     if (results.save_dir == ' '):
         save_path = 'checkpoint.pth'
     else:
         save_path = results.save_dir + '/' + 'checkpoint.pth'
+    """
+
 
     # Load data
     X_train, y_train, X_test, y_test = load_data()
@@ -662,23 +502,33 @@ def main():
     # Build model
     model = build_model(input_size, output_size, hidden_sizes, architecture = architecture, dropout = dropout)
 
+    
     # Fit model
+    
     if (architecture == 'nn'):
-        fit_model(model, train, labels, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
-    else:
-        fit_conv(model, train, labels, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
-
-    #plot_learning_curve(input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, learning_rate = learning_rate, dropout = dropout, weight_decay = weight_decay, n_chunks = n_chunks, optimizer = optimizer)
-    #plot_learning_curve_conv(input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, learning_rate = learning_rate, dropout = dropout, weight_decay = weight_decay, n_chunks = n_chunks, optimizer = optimizer)
+        fit_model(model, train, labels, test, y_test, architecture, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
+    elif (architecture == "conv"):
+        fit_conv(model, train, labels, test, y_test, architecture, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
+    else : 
+        fit_other(model, train, labels, test, y_test, architecture, epochs = epochs, n_chunks = n_chunks, learning_rate = learning_rate, weight_decay = weight_decay, optimizer = optimizer)
+    
+    # Save the model
+    save_model(model,architecture, input_size, output_size, hidden_sizes, dropout)
+    
+    """
+    # plot learning curve
+    if (architecture == 'nn') : 
+        plot_learning_curve(model, input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, learning_rate = learning_rate, dropout = dropout, weight_decay = weight_decay, n_chunks = n_chunks, optimizer = optimizer)
+    else : 
+        plot_learning_curve_conv(model, input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, architecture=architecture, learning_rate = learning_rate, dropout = dropout, weight_decay = weight_decay, n_chunks = n_chunks, optimizer = optimizer)
+    """
 
     # Evaluate model
     #evaluate_model(model, train, y_train, test, y_test, architecture = architecture)
     #test_model(model, test[0], architecture = architecture)
+    
 
-    # Save the model
-    save_model(model,architecture, input_size, output_size, hidden_sizes, dropout, filepath = save_path)
-
-    #compare_hyperparameters(input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, learning_rate, n_chunks = n_chunks, optimizer = optimizer)
+    #compare_hyperparameters(input_size, output_size, hidden_sizes, train, labels, y_train, test, y_test, learning_rate, architecture = architecture, n_chunks = n_chunks, optimizer = optimizer)
 
     #loaded_model = load_model(architecture)
     #loaded_model.eval()
