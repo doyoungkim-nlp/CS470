@@ -25,6 +25,9 @@
                         <div style="background-color: #ffffff; ">
                             <p id="result_text"></p>
                             <p id="result_text2"></p>
+                            <p style="font-size: 20px;"> 
+                                (if the file is not downloaded, press ctrl+shift+r to refresh)
+                            </p>
                         </div>             
                     </div>
                 <div style="background-color: #ffffff;">
@@ -37,58 +40,6 @@
                         <input class="btn btn-primary col-md-1" type="button" value="go to start menu" id="btn">
                     </a>
                 </div>
-                <script type="text/javascript">
-                    var list = [];
-                    $.getJSON('../static/history.json', function(data) {         
-                        $.each( data.history, function( key, val ){
-                            list.push( val );
-                            console.log(val);
-                        });
-                    });
-                    var query = window.location.search.substring(1);
-                    var Field=query.split("=");
-                    var prediction = Field[1].split('&')[0];
-                    var real = Field[2];
-
-
-                        // Start file download.
-                    window.onload=function(){
-                        if (real === prediction) {
-                            document.getElementById("result_text").innerHTML = "You are correct!";
-                            console.log(list[list.length-1].predicted)
-                            list[list.length-1].predicted = prediction
-                            var obj = new Object();
-                            obj.history = list
-                            var obj_s = JSON.stringify(obj);
-                        } 
-                        else {
-                            document.getElementById("result_text").innerHTML = "You are wrong!";
-                            document.getElementById("result_text2").innerHTML = "It is a(an) " + real + "!";
-                            console.log(list[list.length-1].predicted)
-                            list[list.length-1].predicted = prediction
-                            list[list.length-1].correctness = "wrong!";
-                            var obj = new Object();
-                            obj.history = list
-                            var obj_s = JSON.stringify(obj);
-                        }
-                        function download(filename, text) {
-                            var element = document.createElement('a');
-                            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-                            element.setAttribute('download', filename);
-
-                            element.style.display = 'none';
-                            document.body.appendChild(element);
-
-                            element.click();
-
-                            document.body.removeChild(element);
-                        }
-                        download("history.json",obj_s);                    
-                        console.log(Field);
-                    }
-
-                    // 
-                </script>
                 <script>
                     var nods = document.getElementsByClassName('NO-CACHE');
                     for (var i = 0; i < nods.length; i++)
@@ -96,7 +47,9 @@
                         nods[i].attributes['src'].value += "?a=" + Math.random();
                     }
                 </script>
+                
             </main>
         </div>
     </body>
+    <script src="{{url_for('static', filename='js/result.js') }}"></script>
 </html>

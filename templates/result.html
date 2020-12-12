@@ -40,6 +40,9 @@
                 <div style="font-family: colored-crayons-font; font-size: 30px;">
                     <div>
                         <p id="label_text">Is this a {{label_str_1}}?</p>
+                        <p style="font-size: 20px;"> 
+                            (if the file is not downloaded, press ctrl+shift+r to refresh)
+                        </p>
                     </div>
                     <div >
                         <input class="btn btn-primary col-md-1" type="button" value="no" id="smlbtn_no" onclick="changeText(this.value)">
@@ -52,6 +55,7 @@
                     <script type="text/javascript">
                         var clicks = 0;
                         var list = [];
+                        $.ajaxSetup({ cache: false });
                                     $.getJSON('../static/history.json', function(data) {         
                                         $.each( data.history, function( key, val ){
                                             list.push( val );
