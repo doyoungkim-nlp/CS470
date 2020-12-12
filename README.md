@@ -74,7 +74,7 @@ However, if you click "no" 3 times, then it will recognize it as a wrong predict
 
     ./static/
 
-directory(Overwrite history.json file!).
+directory(Overwrite history.json file!).   
 Then update the statistics with <pre><code>ctrl + shift + r</code></pre> or <pre><code>ctrl + F5 </code></pre>
 
 The project will automatically move to statistics.html, which is shown as below:
@@ -108,7 +108,7 @@ It says that I am wrong! now, it will automatically download a modified history.
 
     ./static/
 
-directory(Overwrite history.json file!).
+directory(Overwrite history.json file!).   
 Then same as sketchmind, update the statistics with <pre><code>ctrl + shift + r</code></pre> or <pre><code>ctrl + F5 </code></pre>
 
 Now press "Go to statistics" button, and you will see the same html file we saw at the first demo.
