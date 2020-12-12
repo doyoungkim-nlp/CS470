@@ -108,7 +108,7 @@ It says that I am wrong! now, it will automatically download a modified history.
 
     ./static/
 
-directory(Overwrite history.json file!).   
+directory(Overwrite history.json file!). If the file is not downloaded, just refresh the page with <pre><code>ctrl + shift + r</code></pre> or <pre><code>ctrl + F5 </code></pre>
 Then same as sketchmind, update the statistics with <pre><code>ctrl + shift + r</code></pre> or <pre><code>ctrl + F5 </code></pre>
 
 Now press "Go to statistics" button, and you will see the same html file we saw at the first demo.
